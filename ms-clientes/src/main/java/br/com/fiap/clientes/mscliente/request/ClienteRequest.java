@@ -44,7 +44,7 @@ public class ClienteRequest {
 
 
     public Cliente toDomain() throws NumeroDePassaporteNaoInformadoException {
-        logger.info("Convertendo ClienteRequest para Cliente: {}", this);
+        logger.info("Convertendo ClienteRequest para Cliente...");
 
         if (this.estrangeiro && (this.passaporte == null || this.passaporte.isEmpty())) {
             logger.warn("Número de passaporte não informado para cliente estrangeiro");

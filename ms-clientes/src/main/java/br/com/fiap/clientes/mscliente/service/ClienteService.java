@@ -29,7 +29,7 @@ public class ClienteService {
     }
 
     public ClienteResponse cadastrarCliente(ClienteRequest clienteRequest) throws NumeroDePassaporteNaoInformadoException {
-        logger.info("Cadastrando novo cliente: {}", clienteRequest);
+        logger.info("Cadastrando novo cliente...");
         return new ClienteResponse(clienteRepository.save(clienteRequest.toDomain()));
     }
 
