@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  meu-postgres:
     image: postgres:latest
     container_name: meu-postgres
     environment:
@@ -16,3 +16,22 @@ services:
       ' 
     ports:
       - "5432:5432"
+    networks:
+      - my_network
+
+  ms-clientes:
+    container_name: ms-clientes
+    build:
+      context: ./ms-clientes 
+      dockerfile: Dockerfile
+    environment:
+      PG_HOST: jdbc:postgresql://meu-postgres:5432/clientes
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+    depends_on:
+      - meu-postgres
+    networks:
+      - my_network
+
+networks:
+  my_network:
