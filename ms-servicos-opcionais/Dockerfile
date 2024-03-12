@@ -12,7 +12,7 @@ FROM openjdk:17
 
 WORKDIR /app
 
-COPY --from=builder /app/target/*.jar ms-cliente.jar
+COPY --from=builder /app/target/*.jar ms-servicos-opcionais.jar
 
 ENV PG_HOST=meu-postgres
 ENV PG_USER=postgres

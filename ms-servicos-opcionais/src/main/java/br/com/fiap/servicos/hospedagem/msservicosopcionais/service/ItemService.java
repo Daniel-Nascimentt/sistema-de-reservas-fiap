@@ -34,9 +34,9 @@ public class ItemService {
         return new ItemResponse(item);
     }
 
-    public Page<ItemResponse> listarItens(Pageable pageable) {
+    public Page<ItemResponse> listarItensPorHotel(Long id, Pageable pageable) {
         logger.info("Listando itens paginadamente...");
-        Page<Item> itens = itemRepository.findAll(pageable);
+        Page<Item> itens = itemRepository.findByIdHotel(id, pageable);
         logger.info("Número total de itens encontrados: {}", itens.getTotalElements());
         return itens.map(ItemResponse::new);
     }

@@ -23,11 +23,15 @@ public class ItemRequest {
     @NotNull
     private BigDecimal valorItem;
 
+    @NotNull
+    private Long idHotel;
+
     public Item toDomain() {
         return new Item(
                 this.nomeItem,
                 this.descricaoItem,
-                this.valorItem
+                this.valorItem,
+                this.idHotel
         );
     }
 }

@@ -29,5 +29,19 @@ services:
     networks:
       - my_network
 
+  ms-servicos-opcionais:
+    container_name: ms-servicos-opcionais
+    build:
+      context: ./ms-servicos-opcionais 
+      dockerfile: Dockerfile
+    environment:
+      PG_HOST: jdbc:postgresql://meu-postgres:5432/servicos_opcionais
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+    depends_on:
+      - meu-postgres
+    networks:
+      - my_network
+
 networks:
   my_network:

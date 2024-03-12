@@ -34,9 +34,9 @@ public class ServicoService {
         return new ServicoResponse(servico);
     }
 
-    public Page<ServicoResponse> listarServicos(Pageable pageable) {
+    public Page<ServicoResponse> listarServicosPorHotel(Long id, Pageable pageable) {
         logger.info("Listando serviços paginadamente...");
-        Page<Servico> servicos = servicoRepository.findAll(pageable);
+        Page<Servico> servicos = servicoRepository.findByIdHotel(id, pageable);
         logger.info("Número total de serviços encontrados: {}", servicos.getTotalElements());
         return servicos.map(ServicoResponse::new);
     }

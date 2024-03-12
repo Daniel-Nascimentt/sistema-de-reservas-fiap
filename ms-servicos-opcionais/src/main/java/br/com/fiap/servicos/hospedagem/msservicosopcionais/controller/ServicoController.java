@@ -29,9 +29,9 @@ public class ServicoController {
         return ResponseEntity.ok(servicoService.obterServicoPorId(id));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ServicoResponse>> listarServicos(Pageable pageable) {
-        return ResponseEntity.ok(servicoService.listarServicos(pageable));
+    @GetMapping("/itensHotel/{id}")
+    public ResponseEntity<Page<ServicoResponse>> listarServicosPorHotel(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(servicoService.listarServicosPorHotel(id, pageable));
     }
 
     @PutMapping("/{id}")

@@ -28,15 +28,20 @@ public class Item {
     @NotNull
     private BigDecimal valorItem;
 
-    public Item(String nomeItem, String descricaoItem, BigDecimal valorItem) {
+    @NotNull
+    private Long idHotel;
+
+    public Item(String nomeItem, String descricaoItem, BigDecimal valorItem, Long idHotel) {
         this.nomeItem = nomeItem;
         this.descricaoItem = descricaoItem;
         this.valorItem = valorItem;
+        this.idHotel = idHotel;
     }
 
     public void atualizar(ItemRequest itemRequest) {
         this.nomeItem = itemRequest.getNomeItem();
         this.descricaoItem = itemRequest.getDescricaoItem();
         this.valorItem = itemRequest.getValorItem();
+        this.idHotel = itemRequest.getIdHotel();
     }
 }

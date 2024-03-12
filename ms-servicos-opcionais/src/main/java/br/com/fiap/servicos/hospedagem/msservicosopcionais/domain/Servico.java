@@ -28,10 +28,14 @@ public class Servico {
     @NotNull
     private BigDecimal valorServico;
 
-    public Servico(String nomeServico, String descricaoServico, BigDecimal valorServico) {
+    @NotNull
+    private Long idHotel;
+
+    public Servico(String nomeServico, String descricaoServico, BigDecimal valorServico, Long idHotel) {
         this.nomeServico = nomeServico;
         this.descricaoServico = descricaoServico;
         this.valorServico = valorServico;
+        this.idHotel = idHotel;
     }
 
     public void atualizar(ServicoRequest servicoRequest) {

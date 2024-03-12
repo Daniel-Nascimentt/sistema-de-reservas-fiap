@@ -29,9 +29,9 @@ public class ItemController {
         return ResponseEntity.ok(itemService.obterItemPorId(id));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ItemResponse>> listarItens(Pageable pageable) {
-        return ResponseEntity.ok(itemService.listarItens(pageable));
+    @GetMapping("/itensHotel/{id}")
+    public ResponseEntity<Page<ItemResponse>> listarItensPorHotel(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(itemService.listarItensPorHotel(id, pageable));
     }
 
     @PutMapping("/{id}")
