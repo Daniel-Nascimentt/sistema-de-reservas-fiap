@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.util.List;
 
-@Getter
 @Schema(description = "Detalhes da resposta de erro")
 public class ErrorResponseDetails {
 

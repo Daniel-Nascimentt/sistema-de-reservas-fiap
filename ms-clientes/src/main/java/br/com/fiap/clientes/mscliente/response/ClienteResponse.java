@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Getter
-@NoArgsConstructor
 @Schema(description = "Representação do Cliente na resposta")
 public class ClienteResponse {
 

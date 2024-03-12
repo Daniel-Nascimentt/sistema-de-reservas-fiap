@@ -5,6 +5,7 @@ import br.com.fiap.clientes.mscliente.exception.NumeroDePassaporteNaoInformadoEx
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 public class ClienteRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteRequest.class);
