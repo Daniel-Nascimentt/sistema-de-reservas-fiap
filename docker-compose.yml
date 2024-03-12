@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: clientes
+      POSTGRES_DB: clientes,servicos_opcionais
     volumes:
       - ./load_data_clientes.sql:/docker-entrypoint-initdb.d/load_data_clientes.sql
     ports:
