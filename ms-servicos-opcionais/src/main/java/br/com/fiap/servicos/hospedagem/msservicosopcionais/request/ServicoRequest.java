@@ -1,7 +1,9 @@
 package br.com.fiap.servicos.hospedagem.msservicosopcionais.request;
 
+import br.com.fiap.servicos.hospedagem.msservicosopcionais.domain.Servico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ServicoRequest {
 
     @NotBlank
@@ -21,4 +24,11 @@ public class ServicoRequest {
     @NotNull
     private BigDecimal valorServico;
 
+    public Servico toDomain() {
+        return new Servico(
+          this.nomeServico,
+          this.descricaoServico,
+          this.valorServico
+        );
+    }
 }

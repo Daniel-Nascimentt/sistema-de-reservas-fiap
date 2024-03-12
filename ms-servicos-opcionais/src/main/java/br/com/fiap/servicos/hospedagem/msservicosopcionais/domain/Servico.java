@@ -1,5 +1,6 @@
 package br.com.fiap.servicos.hospedagem.msservicosopcionais.domain;
 
+import br.com.fiap.servicos.hospedagem.msservicosopcionais.request.ServicoRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,5 +32,11 @@ public class Servico {
         this.nomeServico = nomeServico;
         this.descricaoServico = descricaoServico;
         this.valorServico = valorServico;
+    }
+
+    public void atualizar(ServicoRequest servicoRequest) {
+        this.nomeServico = servicoRequest.getNomeServico();
+        this.descricaoServico = servicoRequest.getDescricaoServico();
+        this.valorServico = servicoRequest.getValorServico();
     }
 }

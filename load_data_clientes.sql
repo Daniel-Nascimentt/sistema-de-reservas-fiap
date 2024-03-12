@@ -1,8 +1,5 @@
-DO $$ BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'clientes') THEN
-        CREATE DATABASE clientes;
-    END IF;
-END $$;
+DROP DATABASE IF EXISTS clientes;
+CREATE DATABASE clientes;
 
 
 \connect clientes;
