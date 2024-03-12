@@ -29,7 +29,7 @@ public class ServicoController {
         return ResponseEntity.ok(servicoService.obterServicoPorId(id));
     }
 
-    @GetMapping("/itensHotel/{id}")
+    @GetMapping("/servicosHotel/{id}")
     public ResponseEntity<Page<ServicoResponse>> listarServicosPorHotel(@PathVariable Long id, Pageable pageable) {
         return ResponseEntity.ok(servicoService.listarServicosPorHotel(id, pageable));
     }
