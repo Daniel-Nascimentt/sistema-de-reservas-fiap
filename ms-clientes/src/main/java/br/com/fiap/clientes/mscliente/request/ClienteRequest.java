@@ -1,18 +1,24 @@
 package br.com.fiap.clientes.mscliente.request;
 
+import br.com.fiap.clientes.mscliente.domain.Cliente;
+import br.com.fiap.clientes.mscliente.exception.NumeroDePassaporteNaoInformadoException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
-@NotBlank
+
 @NoArgsConstructor
 @Getter
 public class ClienteRequest {
+
+    private static final Logger logger = LoggerFactory.getLogger(ClienteRequest.class);
 
     @NotBlank
     private String paisOrigem;
@@ -34,26 +40,25 @@ public class ClienteRequest {
     @NotBlank
     private String email;
 
-    public ClienteRequest(String paisOrigem, String cpf, boolean estrangeiro, String nomeCompleto, LocalDate dataNascimento, EnderecoRequest endereco, String telefone, String email) {
-        this.paisOrigem = paisOrigem;
-        this.cpf = cpf;
-        this.estrangeiro = estrangeiro;
-        this.nomeCompleto = nomeCompleto;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
-    }
 
-    public ClienteRequest(String paisOrigem, String cpf, String passaporte, boolean estrangeiro, String nomeCompleto, LocalDate dataNascimento, EnderecoRequest endereco, String telefone, String email) {
-        this.paisOrigem = paisOrigem;
-        this.cpf = cpf;
-        this.passaporte = passaporte;
-        this.estrangeiro = estrangeiro;
-        this.nomeCompleto = nomeCompleto;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
+    public Cliente toDomain() throws NumeroDePassaporteNaoInformadoException {
+        logger.info("Convertendo ClienteRequest para Cliente: {}", this);
+
+        if (this.estrangeiro && (this.passaporte == null || this.passaporte.isEmpty())) {
+            logger.warn("Número de passaporte não informado para cliente estrangeiro");
+            throw new NumeroDePassaporteNaoInformadoException();
+        }
+
+        return new Cliente(
+                this.paisOrigem,
+                this.cpf,
+                this.passaporte,
+                this.estrangeiro,
+                this.nomeCompleto,
+                this.dataNascimento,
+                this.endereco.toDomain(),
+                this.telefone,
+                this.email
+        );
     }
 }

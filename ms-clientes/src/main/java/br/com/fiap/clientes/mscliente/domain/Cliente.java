@@ -1,5 +1,6 @@
 package br.com.fiap.clientes.mscliente.domain;
 
+import br.com.fiap.clientes.mscliente.request.ClienteRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,16 +48,6 @@ public class Cliente {
     @NotBlank
     private String email;
 
-    public Cliente(String paisOrigem, String cpf, boolean estrangeiro, String nomeCompleto, LocalDate dataNascimento, Endereco endereco, String telefone, String email) {
-        this.paisOrigem = paisOrigem;
-        this.cpf = cpf;
-        this.estrangeiro = estrangeiro;
-        this.nomeCompleto = nomeCompleto;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
-    }
 
     public Cliente(String paisOrigem, String cpf, String passaporte, boolean estrangeiro, String nomeCompleto, LocalDate dataNascimento, Endereco endereco, String telefone, String email) {
         this.paisOrigem = paisOrigem;
@@ -68,5 +59,17 @@ public class Cliente {
         this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
+    }
+
+    public void atualizarCampos(ClienteRequest clienteRequest) {
+        this.paisOrigem = clienteRequest.getPaisOrigem();
+        this.cpf = clienteRequest.getCpf();
+        this.passaporte = clienteRequest.getPassaporte();
+        this.estrangeiro = clienteRequest.isEstrangeiro();
+        this.nomeCompleto = clienteRequest.getNomeCompleto();
+        this.dataNascimento = clienteRequest.getDataNascimento();
+        this.endereco = clienteRequest.getEndereco().toDomain();
+        this.telefone = clienteRequest.getTelefone();
+        this.email = clienteRequest.getEmail();
     }
 }
