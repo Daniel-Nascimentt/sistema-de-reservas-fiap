@@ -4,12 +4,14 @@ import br.com.fiap.quartos.msquarto.domain.Banheiro;
 import br.com.fiap.quartos.msquarto.domain.TipoBanheiro;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @Schema
+@AllArgsConstructor
 public class BanheiroResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

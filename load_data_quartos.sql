@@ -8,7 +8,7 @@ DO $$ BEGIN
         -- Tabela: banheiros
         CREATE TABLE banheiros (
             id BIGSERIAL NOT NULL,
-            descricao_banheiro VARCHAR(255),
+            descricao_banheiro TEXT,
             tipo_banheiro VARCHAR(255),
             PRIMARY KEY (id)
         );
@@ -34,6 +34,7 @@ DO $$ BEGIN
             descricao_amenidades TEXT,
             nome_propriedade VARCHAR(255),
             localidade_id BIGINT,
+            endereco_propriedade VARCHAR(255),
             PRIMARY KEY (id),
             FOREIGN KEY (localidade_id) REFERENCES localidades
         );
@@ -45,7 +46,7 @@ DO $$ BEGIN
         -- Tabela: quartos
         CREATE TABLE quartos (
             id BIGSERIAL NOT NULL,
-            descricao_quarto VARCHAR(255),
+            descricao_quarto TEXT,
             tipo_quarto VARCHAR(255),
             banheiro_id BIGINT,
             PRIMARY KEY (id),

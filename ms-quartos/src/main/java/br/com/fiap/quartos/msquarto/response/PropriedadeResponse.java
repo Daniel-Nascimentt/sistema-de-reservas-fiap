@@ -27,8 +27,12 @@ public class PropriedadeResponse {
     private String descricaoAmenidades;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @Schema(description = "Localizado em")
-    private String localizadoEm;
+    @Schema(description = "Localizado na região em")
+    private String localidade;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @Schema(description = "Endereço da propriedade")
+    private String enderecoPropriedade;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "Quartos da Propriedade")
@@ -38,15 +42,17 @@ public class PropriedadeResponse {
         this.idPropriedade = propriedade.getId();
         this.nomePropriedade = propriedade.getNomePropriedade();
         this.descricaoAmenidades = propriedade.getDescricaoAmenidades();
-        this.localizadoEm = propriedade.getLocalidade().getNomeLocalidade();
+        this.localidade = propriedade.getLocalidade().getNomeLocalidade();
         this.quartosDaPropriedade = propriedade.getQuartos().stream().map(QuartoResponse::new).collect(Collectors.toList());
+        this.enderecoPropriedade = propriedade.getEnderecoPropriedade();
     }
 
     public PropriedadeResponse toResponsePropriedade(Propriedade propriedade) {
         this.idPropriedade = propriedade.getId();
         this.nomePropriedade = propriedade.getNomePropriedade();
         this.descricaoAmenidades = propriedade.getDescricaoAmenidades();
-        this.localizadoEm = propriedade.getLocalidade().getNomeLocalidade();
+        this.localidade = propriedade.getLocalidade().getNomeLocalidade();
+        this.enderecoPropriedade = propriedade.getEnderecoPropriedade();
         return this;
     }
 }

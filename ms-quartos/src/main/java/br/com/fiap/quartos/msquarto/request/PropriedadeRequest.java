@@ -17,6 +17,9 @@ public class PropriedadeRequest {
     @NotBlank
     private String descricaoAmenidades;
 
+    @NotBlank
+    private String enderecoPropriedade;
+
     private Long idLocalidade;
 
 }

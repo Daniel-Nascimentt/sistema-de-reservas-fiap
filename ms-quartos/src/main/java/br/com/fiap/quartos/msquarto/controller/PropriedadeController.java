@@ -2,7 +2,7 @@ package br.com.fiap.quartos.msquarto.controller;
 
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
-import br.com.fiap.quartos.msquarto.exception.QuartaoNaoEncontradoException;
+import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
 import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
 import br.com.fiap.quartos.msquarto.response.PropriedadeResponse;
 import br.com.fiap.quartos.msquarto.service.PropriedadeService;
@@ -35,13 +35,6 @@ public class PropriedadeController {
     @PostMapping("/{localidadeId}")
     public ResponseEntity<PropriedadeResponse> createPropriedade(@PathVariable Long localidadeId, @Valid @RequestBody PropriedadeRequest propriedadeRequest) throws LocalidadeNaoEncontradaException {
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(propriedadeService.createPropriedade(localidadeId, propriedadeRequest));
-    }
-
-    @PostMapping("/{propriedadeId}/adicionarQuarto/{quartoId}")
-    public ResponseEntity<PropriedadeResponse> adicionarQuartoAPropriedade(
-            @PathVariable Long propriedadeId,
-            @PathVariable Long quartoId) throws PropriedadeNaoEncontradaException, QuartaoNaoEncontradoException {
-        return ResponseEntity.ok(propriedadeService.adicionarQuartoAPropriedade(propriedadeId, quartoId));
     }
 
     @PutMapping("/{id}")

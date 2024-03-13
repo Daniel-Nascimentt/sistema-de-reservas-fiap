@@ -5,12 +5,13 @@ import br.com.fiap.quartos.msquarto.domain.Propriedade;
 import br.com.fiap.quartos.msquarto.domain.Quarto;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
-import br.com.fiap.quartos.msquarto.exception.QuartaoNaoEncontradoException;
+import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
 import br.com.fiap.quartos.msquarto.repository.LocalidadeRepository;
 import br.com.fiap.quartos.msquarto.repository.PropriedadeRepository;
 import br.com.fiap.quartos.msquarto.repository.QuartoRepository;
 import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
 import br.com.fiap.quartos.msquarto.response.PropriedadeResponse;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,19 +58,13 @@ public class PropriedadeService {
         return new PropriedadeResponse().toResponsePropriedade(propriedade);
     }
 
-    public PropriedadeResponse adicionarQuartoAPropriedade(Long propriedadeId, Long quartoId) throws PropriedadeNaoEncontradaException, QuartaoNaoEncontradoException {
-        logger.info("Adicionando quarto com ID {} à propriedade com ID: {}", quartoId, propriedadeId);
-        Propriedade propriedade = propriedadeRepository.findById(propriedadeId).orElseThrow(PropriedadeNaoEncontradaException::new);
-        Quarto quarto = quartoRepository.findById(quartoId).orElseThrow(QuartaoNaoEncontradoException::new);
+    public void adicionarQuartoAPropriedade(@Valid Propriedade propriedade, @Valid Quarto quarto) {
+        logger.info("Adicionando quarto com ID {} à propriedade com ID: {}", quarto.getId(), propriedade.getId());
 
         propriedade.addQuarto(quarto);
-        quarto.addPropriedadesComQuarto(propriedade);
-
         propriedadeRepository.save(propriedade);
-        quartoRepository.save(quarto);
 
         logger.info("Quarto adicionado à propriedade com sucesso");
-        return new PropriedadeResponse(propriedade);
     }
 
     public PropriedadeResponse updatePropriedade(Long id, PropriedadeRequest propriedadeRequest) throws PropriedadeNaoEncontradaException, LocalidadeNaoEncontradaException {

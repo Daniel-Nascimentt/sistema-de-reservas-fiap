@@ -32,6 +32,9 @@ public class Propriedade {
     @NotBlank
     private String descricaoAmenidades;
 
+    @NotBlank
+    private String enderecoPropriedade;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Localidade localidade;
 
@@ -47,11 +50,13 @@ public class Propriedade {
         this.nomePropriedade = propriedadeRequest.getNomePropriedade();
         this.descricaoAmenidades = propriedadeRequest.getDescricaoAmenidades();
         this.localidade = localidade;
+        this.enderecoPropriedade = propriedadeRequest.getEnderecoPropriedade();
     }
 
     public void atualizar(PropriedadeRequest propriedadeRequest) {
         this.nomePropriedade = propriedadeRequest.getNomePropriedade();
         this.descricaoAmenidades = propriedadeRequest.getDescricaoAmenidades();
+        this.enderecoPropriedade = propriedadeRequest.getEnderecoPropriedade();
 
     }
 
