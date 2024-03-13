@@ -12,14 +12,15 @@ import lombok.NoArgsConstructor;
 public class LocalidadeResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "ID da Localidade", example = "1")
     private Long idLocalidade;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @Schema(description = "Nome da Localidade")
     private String nomeLocalidade;
 
-    public LocalidadeResponse(Localidade localidade){
+    public LocalidadeResponse(Localidade localidade) {
         this.idLocalidade = localidade.getId();
-        this.nomeLocalidade = getNomeLocalidade();
+        this.nomeLocalidade = localidade.getNomeLocalidade();
     }
-
 }

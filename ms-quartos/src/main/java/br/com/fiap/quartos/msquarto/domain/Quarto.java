@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "QUARTOS")
@@ -19,24 +23,19 @@ public class Quarto {
 
     @NotBlank
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_quarto")
     private TipoQuarto tipoQuarto;
 
     @NotBlank
-    @Column(name = "descricao_quarto")
     private String descricaoQuarto;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Banheiro banheiro;
 
-    @ManyToMany
-    @JoinTable(
-            name = "quarto_propriedade",
-            joinColumns = @JoinColumn(name = "quarto_id"),
-            inverseJoinColumns = @JoinColumn(name = "propriedade_id")
-    )
-    @Column(name = "propriedades_com_quarto")
-    private List<Propriedade> propriedadesComQuarto;
+    @ManyToMany(mappedBy = "quartos")
+    private Set<Propriedade> propriedades = new HashSet<>();
 
+    public void addPropriedadesComQuarto(Propriedade propriedade) {
+        this.propriedades.add(propriedade);
+    }
 
 }

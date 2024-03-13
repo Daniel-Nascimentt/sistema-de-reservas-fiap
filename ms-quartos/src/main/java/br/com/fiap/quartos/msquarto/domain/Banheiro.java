@@ -19,11 +19,9 @@ public class Banheiro {
 
     @NotBlank
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_banheiro")
     private TipoBanheiro tipoBanheiro;
 
     @NotBlank
-    @Column(name = "descricao_banheiro")
     private String descricaoBanheiro;
 
 }

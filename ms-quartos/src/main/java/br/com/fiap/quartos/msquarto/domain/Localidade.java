@@ -20,7 +20,6 @@ public class Localidade {
     private Long id;
 
     @NotBlank
-    @Column(name = "nome_localidade")
     private String nomeLocalidade;
 
     @OneToMany(mappedBy = "localidade")
