@@ -3,47 +3,67 @@ CREATE DATABASE quartos;
 
 \connect quartos;
 
--- Tabela: banheiros
-create table banheiros (
-    id bigserial not null,
-    descricao_banheiro varchar(255),
-    tipo_banheiro varchar(255),
-    primary key (id)
-);
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'banheiros') THEN
+        -- Tabela: banheiros
+        CREATE TABLE banheiros (
+            id BIGSERIAL NOT NULL,
+            descricao_banheiro VARCHAR(255),
+            tipo_banheiro VARCHAR(255),
+            PRIMARY KEY (id)
+        );
+    END IF;
+END $$;
 
--- Tabela: localidades
-create table localidades (
-    id bigserial not null,
-    nome_localidade varchar(255),
-    primary key (id)
-);
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'localidades') THEN
+        -- Tabela: localidades
+        CREATE TABLE localidades (
+            id BIGSERIAL NOT NULL,
+            nome_localidade VARCHAR(255),
+            PRIMARY KEY (id)
+        );
+    END IF;
+END $$;
 
--- Tabela: propriedades
-create table propriedades (
-    id bigserial not null,
-    descricao_amenidades varchar(255),
-    nome_propriedade varchar(255),
-    localidade_id bigint,
-    primary key (id),
-    foreign key (localidade_id) references localidades
-);
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'propriedades') THEN
+        -- Tabela: propriedades
+        CREATE TABLE propriedades (
+            id BIGSERIAL NOT NULL,
+            descricao_amenidades TEXT,
+            nome_propriedade VARCHAR(255),
+            localidade_id BIGINT,
+            PRIMARY KEY (id),
+            FOREIGN KEY (localidade_id) REFERENCES localidades
+        );
+    END IF;
+END $$;
 
--- Tabela: quartos
-create table quartos (
-    id bigserial not null,
-    descricao_quarto varchar(255),
-    tipo_quarto varchar(255),
-    banheiro_id bigint,
-    primary key (id),
-    unique (banheiro_id),
-    foreign key (banheiro_id) references banheiros
-);
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'quartos') THEN
+        -- Tabela: quartos
+        CREATE TABLE quartos (
+            id BIGSERIAL NOT NULL,
+            descricao_quarto VARCHAR(255),
+            tipo_quarto VARCHAR(255),
+            banheiro_id BIGINT,
+            PRIMARY KEY (id),
+            UNIQUE (banheiro_id),
+            FOREIGN KEY (banheiro_id) REFERENCES banheiros
+        );
+    END IF;
+END $$;
 
--- Tabela: propriedades_quartos
-create table propriedades_quartos (
-    propriedade_id bigint not null,
-    quarto_id bigint not null,
-    primary key (propriedade_id, quarto_id),
-    foreign key (quarto_id) references quartos,
-    foreign key (propriedade_id) references propriedades
-);
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'propriedades_quartos') THEN
+        -- Tabela: propriedades_quartos
+        CREATE TABLE propriedades_quartos (
+            propriedade_id BIGINT NOT NULL,
+            quarto_id BIGINT NOT NULL,
+            PRIMARY KEY (propriedade_id, quarto_id),
+            FOREIGN KEY (quarto_id) REFERENCES quartos,
+            FOREIGN KEY (propriedade_id) REFERENCES propriedades
+        );
+    END IF;
+END $$;

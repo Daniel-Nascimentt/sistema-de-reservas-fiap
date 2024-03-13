@@ -32,7 +32,7 @@ public class Propriedade {
     @NotBlank
     private String descricaoAmenidades;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Localidade localidade;
 
     @ManyToMany(fetch = FetchType.EAGER)

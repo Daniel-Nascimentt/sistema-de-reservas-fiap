@@ -10,7 +10,6 @@ import br.com.fiap.quartos.msquarto.repository.LocalidadeRepository;
 import br.com.fiap.quartos.msquarto.repository.PropriedadeRepository;
 import br.com.fiap.quartos.msquarto.repository.QuartoRepository;
 import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
-import br.com.fiap.quartos.msquarto.response.LocalidadeResponse;
 import br.com.fiap.quartos.msquarto.response.PropriedadeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +32,12 @@ public class PropriedadeService {
     @Autowired
     private QuartoRepository quartoRepository;
 
-    public Page<PropriedadeResponse> getAllPropriedades(Pageable pageable) {
-        logger.info("Obtendo todas as propriedades com pageable: {}", pageable);
-        Page<Propriedade> propriedades = propriedadeRepository.findAll(pageable);
+    public Page<PropriedadeResponse> getAllPropriedadesByLocalidade(Long localidadeId, Pageable pageable) throws LocalidadeNaoEncontradaException {
+        logger.info("Obtendo todas as propriedades pela localidade id: {} com pageable: {}", localidadeId, pageable);
+
+        Localidade localidade = localidadeRepository.findById(localidadeId).orElseThrow(LocalidadeNaoEncontradaException::new);
+
+        Page<Propriedade> propriedades = propriedadeRepository.findByLocalidade(localidade, pageable);
         logger.info("Recuperadas {} propriedades", propriedades.getTotalElements());
         return propriedades.map(propriedade -> new PropriedadeResponse().toResponsePropriedade(propriedade));
     }

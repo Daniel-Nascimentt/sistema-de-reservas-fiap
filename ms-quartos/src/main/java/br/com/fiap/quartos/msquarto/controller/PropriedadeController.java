@@ -21,9 +21,9 @@ public class PropriedadeController {
     @Autowired
     private PropriedadeService propriedadeService;
 
-    @GetMapping
-    public ResponseEntity<Page<PropriedadeResponse>> getAllPropriedades(Pageable pageable) {
-        return ResponseEntity.ok(propriedadeService.getAllPropriedades(pageable));
+    @GetMapping("/listar/{localidadeId}")
+    public ResponseEntity<Page<PropriedadeResponse>> getAllPropriedadesByLocalidade(@PathVariable Long localidadeId, Pageable pageable) throws LocalidadeNaoEncontradaException {
+        return ResponseEntity.ok(propriedadeService.getAllPropriedadesByLocalidade(localidadeId, pageable));
     }
 
     @GetMapping("/{id}")
