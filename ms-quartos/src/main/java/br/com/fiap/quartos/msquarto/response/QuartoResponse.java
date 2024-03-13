@@ -58,5 +58,4 @@ public class QuartoResponse {
         this.descricaoQuarto = quarto.getDescricaoQuarto();
         this.banheiroResponse = new BanheiroResponse(quarto.getBanheiro());
     }
-
 }

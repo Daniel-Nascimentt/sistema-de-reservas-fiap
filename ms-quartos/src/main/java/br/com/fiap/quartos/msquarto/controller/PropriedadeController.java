@@ -2,7 +2,6 @@ package br.com.fiap.quartos.msquarto.controller;
 
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
-import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
 import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
 import br.com.fiap.quartos.msquarto.response.PropriedadeResponse;
 import br.com.fiap.quartos.msquarto.service.PropriedadeService;

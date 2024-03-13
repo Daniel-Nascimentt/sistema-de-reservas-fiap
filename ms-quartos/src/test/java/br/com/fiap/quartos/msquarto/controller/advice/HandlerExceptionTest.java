@@ -1,8 +1,9 @@
-package br.com.fiap.servicos.hospedagem.msservicosopcionais.controller.advice;
+package br.com.fiap.quartos.msquarto.controller.advice;
 
-import br.com.fiap.servicos.hospedagem.msservicosopcionais.exception.ItemNaoEncontradoException;
-import br.com.fiap.servicos.hospedagem.msservicosopcionais.exception.ServicoNaoEncontradoException;
-import br.com.fiap.servicos.hospedagem.msservicosopcionais.response.ErrorResponseDetails;
+import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
+import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
+import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
+import br.com.fiap.quartos.msquarto.response.ErrorResponseDetails;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,25 +26,35 @@ class HandlerExceptionTest {
     private MethodArgumentNotValidException methodArgumentNotValidException;
 
     @Test
-    void itemNaoEncontradoException() {
-        ItemNaoEncontradoException exception = new ItemNaoEncontradoException();
+    void testLocalidadeNaoEncontradaException() {
+        LocalidadeNaoEncontradaException exception = new LocalidadeNaoEncontradaException();
 
-        ResponseEntity<?> responseEntity = handlerException.itemNaoEncontradoException(exception);
-
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-    }
-
-    @Test
-    void servicoNaoEncontradoException() {
-        ServicoNaoEncontradoException exception = new ServicoNaoEncontradoException();
-
-        ResponseEntity<?> responseEntity = handlerException.servicoNaoEncontradoException(exception);
+        ResponseEntity<?> responseEntity = handlerException.localidadeNaoEncontradaException(exception);
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
-    void methodArgumentNotValidException() {
+    void testPropriedadeNaoEncontradaException() {
+        PropriedadeNaoEncontradaException exception = new PropriedadeNaoEncontradaException();
+
+        ResponseEntity<?> responseEntity = handlerException.propriedadeNaoEncontradaException(exception);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testQuartoNaoEncontradoException() {
+        QuartoNaoEncontradoException exception = new QuartoNaoEncontradoException();
+
+        ResponseEntity<?> responseEntity = handlerException.quartoNaoEncontradoException(exception);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testMethodArgumentNotValidException() {
+
         when(methodArgumentNotValidException.getMessage()).thenReturn("Argumento inválido");
         ResponseEntity<?> response = handlerException.methodArgumentNotValidException(methodArgumentNotValidException);
 
@@ -52,11 +63,12 @@ class HandlerExceptionTest {
     }
 
     @Test
-    void genericException() {
+    void testGenericException() {
         Exception exception = new Exception("Erro genérico");
 
         ResponseEntity<?> responseEntity = handlerException.genericException(exception);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
+
 }

@@ -1,19 +1,12 @@
 package br.com.fiap.quartos.msquarto.domain;
 
 import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,10 +28,10 @@ public class Propriedade {
     @NotBlank
     private String enderecoPropriedade;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Localidade localidade;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(
             name = "propriedades_quartos",
             joinColumns = @JoinColumn(name = "propriedade_id"),
@@ -68,4 +61,11 @@ public class Propriedade {
         this.quartos.add(quarto);
     }
 
+    public void removerQuarto(Quarto quarto) {
+        this.quartos.remove(quarto);
+    }
+
+    public void removerTodosQuartos() {
+        this.getQuartos().removeAll(this.quartos);
+    }
 }

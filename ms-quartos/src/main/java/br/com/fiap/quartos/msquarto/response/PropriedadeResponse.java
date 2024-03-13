@@ -3,6 +3,7 @@ package br.com.fiap.quartos.msquarto.response;
 import br.com.fiap.quartos.msquarto.domain.Propriedade;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Schema
 public class PropriedadeResponse {
 

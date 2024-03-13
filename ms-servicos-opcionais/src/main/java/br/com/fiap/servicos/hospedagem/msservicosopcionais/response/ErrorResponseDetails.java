@@ -2,9 +2,15 @@ package br.com.fiap.servicos.hospedagem.msservicosopcionais.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Schema(description = "Detalhes da resposta de erro")
 public class ErrorResponseDetails {
 

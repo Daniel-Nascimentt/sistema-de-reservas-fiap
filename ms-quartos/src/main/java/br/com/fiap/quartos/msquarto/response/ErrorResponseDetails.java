@@ -1,4 +1,4 @@
-package br.com.fiap.clientes.mscliente.response;
+package br.com.fiap.quartos.msquarto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;

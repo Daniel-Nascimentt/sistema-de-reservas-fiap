@@ -6,11 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,7 +30,7 @@ public class Quarto {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Banheiro banheiro;
 
-    @ManyToMany(mappedBy = "quartos")
+    @ManyToMany(mappedBy = "quartos", cascade = CascadeType.PERSIST)
     private Set<Propriedade> propriedades = new HashSet<>();
 
     public Quarto(TipoQuarto tipoQuarto, String descricaoQuarto, Banheiro banheiro) {

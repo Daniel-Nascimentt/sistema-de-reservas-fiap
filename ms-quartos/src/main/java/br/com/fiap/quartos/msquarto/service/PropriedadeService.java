@@ -5,7 +5,6 @@ import br.com.fiap.quartos.msquarto.domain.Propriedade;
 import br.com.fiap.quartos.msquarto.domain.Quarto;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
-import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
 import br.com.fiap.quartos.msquarto.repository.LocalidadeRepository;
 import br.com.fiap.quartos.msquarto.repository.PropriedadeRepository;
 import br.com.fiap.quartos.msquarto.repository.QuartoRepository;
@@ -18,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 public class PropriedadeService {
@@ -50,6 +52,7 @@ public class PropriedadeService {
         return new PropriedadeResponse(propriedade);
     }
 
+    @Transactional
     public PropriedadeResponse createPropriedade(Long localidadeId, PropriedadeRequest propriedadeRequest) throws LocalidadeNaoEncontradaException {
         logger.info("Criando nova propriedade para a localidade com ID: {}", localidadeId);
         Localidade localidade = localidadeRepository.findById(localidadeId).orElseThrow(LocalidadeNaoEncontradaException::new);
@@ -58,6 +61,7 @@ public class PropriedadeService {
         return new PropriedadeResponse().toResponsePropriedade(propriedade);
     }
 
+    @Transactional
     public void adicionarQuartoAPropriedade(@Valid Propriedade propriedade, @Valid Quarto quarto) {
         logger.info("Adicionando quarto com ID {} à propriedade com ID: {}", quarto.getId(), propriedade.getId());
 
@@ -67,6 +71,7 @@ public class PropriedadeService {
         logger.info("Quarto adicionado à propriedade com sucesso");
     }
 
+    @Transactional
     public PropriedadeResponse updatePropriedade(Long id, PropriedadeRequest propriedadeRequest) throws PropriedadeNaoEncontradaException, LocalidadeNaoEncontradaException {
         logger.info("Atualizando propriedade com ID {}: {}", id, propriedadeRequest);
         Propriedade propriedade = propriedadeRepository.findById(id).orElseThrow(PropriedadeNaoEncontradaException::new);
@@ -84,9 +89,26 @@ public class PropriedadeService {
         return new PropriedadeResponse().toResponsePropriedade(propriedade);
     }
 
+    @Transactional
     public void deletePropriedade(Long id) throws PropriedadeNaoEncontradaException {
         logger.info("Excluindo propriedade com ID: {}", id);
-        propriedadeRepository.delete(propriedadeRepository.findById(id).orElseThrow(PropriedadeNaoEncontradaException::new));
+
+        Propriedade propriedade = propriedadeRepository.findById(id).orElseThrow(PropriedadeNaoEncontradaException::new);
+
+        logger.info("Removendo associação entre quartos e propriedades");
+        propriedade.getQuartos().forEach(
+                quarto -> {
+                    quarto.getPropriedades().removeIf(pr -> pr.getId().equals(propriedade.getId()));
+                    quartoRepository.delete(quarto);
+                    logger.info("Quarto removido - ID: {}", quarto.getId());
+                }
+        );
+
+        logger.info("Removendo todas as associações entre quartos e propriedades");
+        propriedade.removerTodosQuartos();
+
+        logger.info("Excluindo propriedade");
+        propriedadeRepository.delete(propriedade);
         logger.info("Propriedade excluída - ID: {}", id);
     }
 }

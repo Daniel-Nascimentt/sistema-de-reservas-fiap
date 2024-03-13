@@ -4,11 +4,13 @@ import br.com.fiap.quartos.msquarto.domain.Quarto;
 import br.com.fiap.quartos.msquarto.domain.TipoQuarto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class QuartoRequest {
 
     @NotNull

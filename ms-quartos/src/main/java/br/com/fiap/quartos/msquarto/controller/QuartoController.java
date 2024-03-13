@@ -1,9 +1,7 @@
 package br.com.fiap.quartos.msquarto.controller;
 
-import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
-import br.com.fiap.quartos.msquarto.repository.QuartoProjection;
 import br.com.fiap.quartos.msquarto.request.QuartoRequest;
 import br.com.fiap.quartos.msquarto.response.QuartoResponse;
 import br.com.fiap.quartos.msquarto.service.QuartoService;
@@ -37,16 +35,16 @@ public class QuartoController {
         return ResponseEntity.ok(quartoService.updateQuarto(id, quartoRequest));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuarto(@PathVariable Long id) throws QuartoNaoEncontradoException {
-        quartoService.deleteQuarto(id);
+    @DeleteMapping("/{idQuarto}/{idPropriedade}")
+    public ResponseEntity<Void> deleteQuarto(@PathVariable Long idQuarto, @PathVariable Long idPropriedade) throws QuartoNaoEncontradoException, PropriedadeNaoEncontradaException {
+        quartoService.deleteQuarto(idQuarto, idPropriedade);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/localidade/{localidadeId}")
     public ResponseEntity<Page<QuartoResponse>> getAllQuartosByLocalidade(
             @PathVariable Long localidadeId,
-            Pageable pageable) throws LocalidadeNaoEncontradaException {
+            Pageable pageable) {
         return ResponseEntity.ok(quartoService.getAllQuartosByLocalidade(localidadeId, pageable));
     }
 }
