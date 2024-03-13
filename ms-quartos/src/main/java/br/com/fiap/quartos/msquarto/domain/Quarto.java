@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,10 +34,18 @@ public class Quarto {
     @ManyToMany(mappedBy = "quartos", cascade = CascadeType.PERSIST)
     private Set<Propriedade> propriedades = new HashSet<>();
 
-    public Quarto(TipoQuarto tipoQuarto, String descricaoQuarto, Banheiro banheiro) {
+    @NotNull
+    private int totalHospedes;
+
+    @NotNull
+    private BigDecimal valorDiaria;
+
+    public Quarto(TipoQuarto tipoQuarto, String descricaoQuarto, Banheiro banheiro, int totalHospedes, BigDecimal valorDiaria) {
         this.tipoQuarto = tipoQuarto;
         this.descricaoQuarto = descricaoQuarto;
         this.banheiro = banheiro;
+        this.totalHospedes = totalHospedes;
+        this.valorDiaria = valorDiaria;
     }
 
     public void associarAPropriedade(Propriedade propriedade) {

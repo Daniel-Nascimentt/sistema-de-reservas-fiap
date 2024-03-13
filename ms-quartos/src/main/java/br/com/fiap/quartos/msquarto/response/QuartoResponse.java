@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +44,14 @@ public class QuartoResponse {
     @Schema(description = "Regiao onde esta localizado o quarto")
     private String localidadeQuarto;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "Total de hospedes que o quarto comporta")
+    private int totalHospedes;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "Valor da diaria do quarto")
+    private BigDecimal valorDiaria;
+
     public QuartoResponse(Quarto quarto, PropriedadeResponse propriedadeResponse) {
         this.idQuarto = quarto.getId();
         this.tipoQuarto = quarto.getTipoQuarto();
@@ -50,6 +60,8 @@ public class QuartoResponse {
         this.nomePropriedade = propriedadeResponse.getNomePropriedade();
         this.enderecoPropriedade = propriedadeResponse.getEnderecoPropriedade();
         this.localidadeQuarto = propriedadeResponse.getLocalidade();
+        this.totalHospedes = quarto.getTotalHospedes();
+        this.valorDiaria = quarto.getValorDiaria();
     }
 
     public QuartoResponse(Quarto quarto) {
@@ -57,5 +69,7 @@ public class QuartoResponse {
         this.tipoQuarto = quarto.getTipoQuarto();
         this.descricaoQuarto = quarto.getDescricaoQuarto();
         this.banheiroResponse = new BanheiroResponse(quarto.getBanheiro());
+        this.totalHospedes = quarto.getTotalHospedes();
+        this.valorDiaria = quarto.getValorDiaria();
     }
 }

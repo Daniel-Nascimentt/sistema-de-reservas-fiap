@@ -1,5 +1,6 @@
 package br.com.fiap.quartos.msquarto.controller;
 
+import br.com.fiap.quartos.msquarto.exception.DelecaoNaoPermitidaException;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.request.LocalidadeRequest;
 import br.com.fiap.quartos.msquarto.response.LocalidadeResponse;
@@ -41,7 +42,7 @@ public class LocalidadeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLocalidade(@PathVariable Long id) throws LocalidadeNaoEncontradaException {
+    public ResponseEntity<Void> deleteLocalidade(@PathVariable Long id) throws LocalidadeNaoEncontradaException, DelecaoNaoPermitidaException {
         localidadeService.deleteLocalidade(id);
         return ResponseEntity.noContent().build();
     }

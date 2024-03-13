@@ -1,5 +1,6 @@
 package br.com.fiap.quartos.msquarto.controller.advice;
 
+import br.com.fiap.quartos.msquarto.exception.DelecaoNaoPermitidaException;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.PropriedadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.exception.QuartoNaoEncontradoException;
@@ -55,6 +56,13 @@ public class HandlerException {
                 HttpStatus.BAD_REQUEST.value(),
                 fieldsError,
                 new Date().getTime()));
+    }
+
+    @ExceptionHandler(DelecaoNaoPermitidaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> delecaoNaoPermitidaException(DelecaoNaoPermitidaException ex) {
+        logger.error("Erro ao lidar com DelecaoNaoPermitidaException", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDetails(ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

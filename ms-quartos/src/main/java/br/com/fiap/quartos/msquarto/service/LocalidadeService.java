@@ -1,6 +1,7 @@
 package br.com.fiap.quartos.msquarto.service;
 
 import br.com.fiap.quartos.msquarto.domain.Localidade;
+import br.com.fiap.quartos.msquarto.exception.DelecaoNaoPermitidaException;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.repository.LocalidadeRepository;
 import br.com.fiap.quartos.msquarto.request.LocalidadeRequest;
@@ -50,9 +51,14 @@ public class LocalidadeService {
         return new LocalidadeResponse(localidade);
     }
 
-    public void deleteLocalidade(Long id) throws LocalidadeNaoEncontradaException {
+    public void deleteLocalidade(Long id) throws LocalidadeNaoEncontradaException, DelecaoNaoPermitidaException {
         logger.info("Excluindo localidade com ID: {}", id);
         Localidade localidade = localidadeRepository.findById(id).orElseThrow(LocalidadeNaoEncontradaException::new);
+
+        if (!localidade.getPropriedades().isEmpty()){
+            throw new DelecaoNaoPermitidaException("Esta entidade não pode ser remivida contendo sub-entidades!");
+        }
+
         localidadeRepository.delete(localidade);
         logger.info("Localidade excluída - ID: {}", id);
     }

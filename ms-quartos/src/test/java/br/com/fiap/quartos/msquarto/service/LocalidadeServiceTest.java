@@ -1,9 +1,12 @@
 package br.com.fiap.quartos.msquarto.service;
 
 import br.com.fiap.quartos.msquarto.domain.Localidade;
+import br.com.fiap.quartos.msquarto.domain.Propriedade;
+import br.com.fiap.quartos.msquarto.exception.DelecaoNaoPermitidaException;
 import br.com.fiap.quartos.msquarto.exception.LocalidadeNaoEncontradaException;
 import br.com.fiap.quartos.msquarto.repository.LocalidadeRepository;
 import br.com.fiap.quartos.msquarto.request.LocalidadeRequest;
+import br.com.fiap.quartos.msquarto.request.PropriedadeRequest;
 import br.com.fiap.quartos.msquarto.response.LocalidadeResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,6 +112,16 @@ class LocalidadeServiceTest {
         when(localidadeRepository.findById(localidadeId)).thenReturn(Optional.of(localidade));
 
         assertDoesNotThrow(() -> localidadeService.deleteLocalidade(localidadeId));
+    }
+
+    @Test
+    void deleteLocalidadeThrowsDelecaoNaoPermitidaException() throws DelecaoNaoPermitidaException {
+        Long localidadeId = 1L;
+        Localidade localidade = fakeLocalidade();
+        localidade.getPropriedades().add(new Propriedade(new PropriedadeRequest("Nome propriedade", "Descricao das amenidades", "Endereco propriedade", 1L), fakeLocalidade()));
+        when(localidadeRepository.findById(localidadeId)).thenReturn(Optional.of(localidade));
+
+        assertThrows(DelecaoNaoPermitidaException.class, () -> localidadeService.deleteLocalidade(localidadeId));
     }
 
     @Test

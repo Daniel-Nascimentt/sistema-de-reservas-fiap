@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface QuartoRepository extends JpaRepository<Quarto, Long> {
 
-    @Query(value = "SELECT q.id AS quartoId, q.tipo_quarto AS tipoQuarto, q.descricao_quarto AS descricaoQuarto, "
+    @Query(value = "SELECT q.id AS quartoId, q.tipo_quarto AS tipoQuarto, q.descricao_quarto AS descricaoQuarto, q.total_hospedes AS totalHospedes, q.valor_diaria AS valorDiaria, "
             + "b.id AS banheiroId, b.descricao_banheiro AS descricaoBanheiro, b.tipo_banheiro AS tipoBanheiro, "
             + "p.nome_propriedade AS nomePropriedade, p.endereco_propriedade AS enderecoPropriedade, "
             + "l.nome_localidade AS nomeLocalidade "

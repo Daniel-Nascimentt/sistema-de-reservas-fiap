@@ -102,7 +102,9 @@ public class QuartoService {
                     new BanheiroResponse(quartoProjection.getBanheiroId(), TipoBanheiro.valueOf(quartoProjection.getTipoBanheiro()), quartoProjection.getDescricaoBanheiro()),
                     quartoProjection.getNomePropriedade(),
                     quartoProjection.getEnderecoPropriedade(),
-                    quartoProjection.getNomeLocalidade()
+                    quartoProjection.getNomeLocalidade(),
+                    quartoProjection.getTotalHospedes(),
+                    quartoProjection.getValorDiaria()
             );
         });
     }

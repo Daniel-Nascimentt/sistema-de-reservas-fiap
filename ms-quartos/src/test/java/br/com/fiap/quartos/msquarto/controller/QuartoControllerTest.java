@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -122,7 +123,9 @@ class QuartoControllerTest {
                 TipoQuarto.LUXO_SIMPLES,
                 "Descricao do quarto",
                 new BanheiroRequest(TipoBanheiro.LUXO, "Descricao do banheiro"),
-                1L);
+                1L,
+                3,
+                BigDecimal.TEN);
     }
 
     private QuartoResponse fakeResponse(){
@@ -133,7 +136,9 @@ class QuartoControllerTest {
                 new BanheiroResponse(1L, TipoBanheiro.LUXO, "Descricao banheiro"),
                 "Nomeda propriedade",
                 "Rua endereco propriedade teste",
-                "Localidade do quarto XPTO"
+                "Localidade do quarto XPTO",
+                2,
+                BigDecimal.TEN
         );
     }
 }

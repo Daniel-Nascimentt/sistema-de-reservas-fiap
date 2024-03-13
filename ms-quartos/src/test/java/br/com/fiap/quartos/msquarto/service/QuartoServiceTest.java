@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -182,7 +183,7 @@ class QuartoServiceTest {
         assertNotNull(result);
         assertEquals(quartos.map(q -> new QuartoResponse(q.getQuartoId(), TipoQuarto.valueOf(q.getTipoQuarto()), q.getDescricaoQuarto(),
                 new BanheiroResponse(q.getBanheiroId(), TipoBanheiro.valueOf(q.getTipoBanheiro()), q.getDescricaoBanheiro()),
-                q.getNomePropriedade(), q.getEnderecoPropriedade(), q.getNomeLocalidade())), result);
+                q.getNomePropriedade(), q.getEnderecoPropriedade(), q.getNomeLocalidade(), q.getTotalHospedes(), q.getValorDiaria())), result);
     }
 
 
@@ -197,7 +198,9 @@ class QuartoServiceTest {
                 TipoQuarto.LUXO_DUPLO,
                 "Descricao do quarto",
                 new BanheiroRequest(TipoBanheiro.LUXO, "Descricao do banheiro"),
-                1L
+                1L,
+                2,
+                BigDecimal.TEN
         );
     }
 

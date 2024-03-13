@@ -22,7 +22,7 @@ public class Localidade {
     @NotBlank
     private String nomeLocalidade;
 
-    @OneToMany(mappedBy = "localidade", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "localidade", cascade = CascadeType.PERSIST)
     private List<Propriedade> propriedades = new ArrayList<>();
 
     public Localidade(String nomeLocalidade) {
