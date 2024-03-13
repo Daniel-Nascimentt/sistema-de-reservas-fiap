@@ -10,6 +10,7 @@ services:
     volumes:
       - ./load_data_clientes.sql:/docker-entrypoint-initdb.d/load_data_clientes.sql
       - ./load_data_servicos.sql:/docker-entrypoint-initdb.d/load_data_servicos.sql
+      - ./load_data_quartos.sql:/docker-entrypoint-initdb.d/load_data_quartos.sql
     ports:
       - "5432:5432"
     networks:
