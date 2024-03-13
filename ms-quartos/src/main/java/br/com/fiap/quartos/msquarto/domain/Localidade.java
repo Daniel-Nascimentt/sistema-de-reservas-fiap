@@ -1,5 +1,6 @@
 package br.com.fiap.quartos.msquarto.domain;
 
+import br.com.fiap.quartos.msquarto.request.LocalidadeRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -25,4 +26,11 @@ public class Localidade {
     @OneToMany(mappedBy = "localidade")
     private List<Propriedade> propriedades = new ArrayList<>();
 
+    public Localidade(String nomeLocalidade) {
+        this.nomeLocalidade = nomeLocalidade;
+    }
+
+    public void atualizar(LocalidadeRequest localidadeRequest) {
+        this.nomeLocalidade = localidadeRequest.getNomeLocalidade();
+    }
 }
