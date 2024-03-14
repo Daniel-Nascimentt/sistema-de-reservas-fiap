@@ -44,5 +44,19 @@ services:
     networks:
       - my_network
 
+  ms-quartos:
+    container_name: ms-quartos
+    build:
+      context: ./ms-quartos 
+      dockerfile: Dockerfile
+    environment:
+      PG_HOST: jdbc:postgresql://meu-postgres:5432/quartos
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+    depends_on:
+      - meu-postgres
+    networks:
+      - my_network
+
 networks:
   my_network:
