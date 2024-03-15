@@ -85,7 +85,7 @@ public class ReservaServiceTest {
     }
 
     @Test
-    public void testPreReservar() throws QuartoJaReservadoException, DatacheckinInvalida {
+    public void testPreReservar() throws QuartoJaReservadoException, DataCheckinInvalidaException {
         NovaReservaRequest request = fakeRequest();
 
         List<QuartoResponse> quartos = Arrays.asList(
@@ -124,7 +124,7 @@ public class ReservaServiceTest {
     }
 
     @Test
-    public void testPreReservarQuartoJaReservadoException() throws DatacheckinInvalida {
+    public void testPreReservarQuartoJaReservadoException() throws DataCheckinInvalidaException {
         NovaReservaRequest request = fakeRequest();
 
         when(reservaQuartoRepository.findQuartosDisponiveisBetweenCheckinAndCheckout(request.getCheckin(), request.getCheckout()))
@@ -140,7 +140,7 @@ public class ReservaServiceTest {
     }
 
     @Test
-    void testAtualizarReserva() throws OperacaoReservaNaoPermitidaException, ClienteInvalidoException, ReservaNaoEncontradaException, DatacheckinInvalida {
+    void testAtualizarReserva() throws OperacaoReservaNaoPermitidaException, ClienteInvalidoException, ReservaNaoEncontradaException, DataCheckinInvalidaException {
         NovaReservaRequest request = fakeRequest();
         UUID codigoReserva = UUID.randomUUID();
         Reserva reserva = new Reserva(LocalDate.now(), LocalDate.now().plusDays(1), LocalDateTime.now(), request.getIdCliente());

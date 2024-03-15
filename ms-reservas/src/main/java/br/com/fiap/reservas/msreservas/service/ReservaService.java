@@ -62,7 +62,7 @@ public class ReservaService {
         return new PageImpl<>(quartosFiltrados);
     }
 
-    public ReservaResponse preReservar(NovaReservaRequest request) throws QuartoJaReservadoException, DatacheckinInvalida {
+    public ReservaResponse preReservar(NovaReservaRequest request) throws QuartoJaReservadoException, DataCheckinInvalidaException {
         logger.info("Iniciando pré-reserva solicitada pelo cliente {}...", request.getIdCliente());
         verificarDisponibilidadeDosQuartos(request);
         List<ServicoResponse> servicos = obterServicos(request);
@@ -100,7 +100,7 @@ public class ReservaService {
         return FilterQuarto.filtrarQuartos(quartos, quantidadeHospedesParaReserva, FilterByCapacity::filter, FilterByAddress::filter);
     }
 
-    private void verificarDisponibilidadeDosQuartos(NovaReservaRequest request) throws QuartoJaReservadoException, DatacheckinInvalida {
+    private void verificarDisponibilidadeDosQuartos(NovaReservaRequest request) throws QuartoJaReservadoException, DataCheckinInvalidaException {
         logger.info("Verificando se os quartos solicitados estão reservados para o período entre {} e {}.", request.getCheckin(), request.getCheckout());
         List<Long> quartosReservados = buscarQuartosReservados(request.getCheckin(), request.getCheckout());
         if (!Collections.disjoint(quartosReservados, request.getIdsQuarto())) {
@@ -162,7 +162,7 @@ public class ReservaService {
         return new ArrayList<>(msQuartosClient.obterQuartosPorListIds(request.getIdsQuarto(), Pageable.unpaged()).getContent());
     }
 
-    private Reserva criarEGravarReserva(NovaReservaRequest request, List<ServicoResponse> servicos, List<ItemResponse> itens, List<QuartoResponse> quartos, ClienteResponse cliente) throws DatacheckinInvalida {
+    private Reserva criarEGravarReserva(NovaReservaRequest request, List<ServicoResponse> servicos, List<ItemResponse> itens, List<QuartoResponse> quartos, ClienteResponse cliente) throws DataCheckinInvalidaException {
         logger.info("Criando e salvando reserva com status {}...", StatusQuarto.PEND_CONFIRM_RESERVA);
         Reserva reserva = new Reserva(request.getCheckin(), request.getCheckout(), LocalDateTime.now(), cliente.getId());
         reservaRepository.save(reserva);
@@ -224,7 +224,7 @@ public class ReservaService {
         return new ReservaResponse(reserva);
     }
 
-    public ReservaResponse atualizarReserva(NovaReservaRequest request, UUID codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DatacheckinInvalida {
+    public ReservaResponse atualizarReserva(NovaReservaRequest request, UUID codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DataCheckinInvalidaException {
         logger.info("Iniciando atualização da reserva com o código {}...", codigoReserva);
         Reserva reserva = reservaRepository.findById(codigoReserva)
                 .orElseThrow(ReservaNaoEncontradaException::new);

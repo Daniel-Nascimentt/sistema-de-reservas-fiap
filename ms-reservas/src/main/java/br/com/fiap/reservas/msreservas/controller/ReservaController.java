@@ -28,7 +28,7 @@ public class ReservaController {
     }
 
     @PostMapping(value = "/preReservar")
-    public ResponseEntity<ReservaResponse> preReserva(@RequestBody @Valid NovaReservaRequest request) throws QuartoJaReservadoException, DatacheckinInvalida {
+    public ResponseEntity<ReservaResponse> preReserva(@RequestBody @Valid NovaReservaRequest request) throws QuartoJaReservadoException, DataCheckinInvalidaException {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.preReservar(request));
     }
 
@@ -43,7 +43,7 @@ public class ReservaController {
     }
 
     @PutMapping(value = "/{codigoReserva}")
-    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody @Valid NovaReservaRequest request, @PathVariable String codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DatacheckinInvalida {
+    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody @Valid NovaReservaRequest request, @PathVariable String codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DataCheckinInvalidaException {
         return ResponseEntity.ok(reservaService.atualizarReserva(request, UUID.fromString(codigoReserva)));
     }
 

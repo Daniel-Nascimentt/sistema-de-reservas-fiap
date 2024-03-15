@@ -1,6 +1,6 @@
 package br.com.fiap.reservas.msreservas.request;
 
-import br.com.fiap.reservas.msreservas.exception.DatacheckinInvalida;
+import br.com.fiap.reservas.msreservas.exception.DataCheckinInvalidaException;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,16 +26,16 @@ public class NovaReservaRequest {
     @NotNull
     private LocalDate checkout;
 
-    public LocalDate getCheckin() throws DatacheckinInvalida {
+    public LocalDate getCheckin() throws DataCheckinInvalidaException {
         if (this.checkin.isAfter(this.checkout)){
-            throw new DatacheckinInvalida();
+            throw new DataCheckinInvalidaException();
         }
         return checkin;
     }
 
-    public LocalDate getCheckout() throws DatacheckinInvalida {
+    public LocalDate getCheckout() throws DataCheckinInvalidaException {
         if (this.checkout.isBefore(this.checkin)){
-            throw new DatacheckinInvalida();
+            throw new DataCheckinInvalidaException();
         }
         return checkout;
     }
