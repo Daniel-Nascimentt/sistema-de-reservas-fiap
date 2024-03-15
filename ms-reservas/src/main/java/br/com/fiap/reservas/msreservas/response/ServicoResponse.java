@@ -1,6 +1,5 @@
-package br.com.fiap.servicos.hospedagem.msservicosopcionais.response;
+package br.com.fiap.reservas.msreservas.response;
 
-import br.com.fiap.servicos.hospedagem.msservicosopcionais.domain.Servico;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -34,12 +33,4 @@ public class ServicoResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "ID da propriedade associado ao serviço")
     private Long idPropriedade;
-
-    public ServicoResponse(Servico servico) {
-        this.id = servico.getId();
-        this.nomeServico = servico.getNomeServico();
-        this.descricaoServico = servico.getDescricaoServico();
-        this.valorServico = servico.getValorServico();
-        this.idPropriedade = servico.getIdPropriedade();
-    }
 }

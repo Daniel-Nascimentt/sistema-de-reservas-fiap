@@ -24,14 +24,14 @@ public class ItemRequest {
     private BigDecimal valorItem;
 
     @NotNull
-    private Long idHotel;
+    private Long idPropriedade;
 
     public Item toDomain() {
         return new Item(
                 this.nomeItem,
                 this.descricaoItem,
                 this.valorItem,
-                this.idHotel
+                this.idPropriedade
         );
     }
 }

@@ -40,7 +40,7 @@ class ItemServiceTest {
         ItemResponse result = itemService.criarItem(itemRequest);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeItem().isEmpty());
         assertFalse(result.getDescricaoItem().isEmpty());
         assertNotNull(result.getValorItem());
@@ -55,19 +55,19 @@ class ItemServiceTest {
         ItemResponse result = itemService.obterItemPorId(id);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeItem().isEmpty());
         assertFalse(result.getDescricaoItem().isEmpty());
         assertNotNull(result.getValorItem());
     }
 
     @Test
-    void testListarItensPorHotel() {
+    void testListarItensPorPropriedade() {
         Pageable pageable = Pageable.unpaged();
         Page<Item> itensMock = new PageImpl<>(List.of(fakeItem(), fakeItem()));
-        when(itemRepository.findByIdHotel(any(), any())).thenReturn(itensMock);
+        when(itemRepository.findByIdPropriedade(any(), any())).thenReturn(itensMock);
 
-        Page<ItemResponse> result = itemService.listarItensPorHotel(1L, pageable);
+        Page<ItemResponse> result = itemService.listarItensPorPropriedade(1L, pageable);
 
         assertNotNull(result);
         assertTrue(result.getTotalElements() > 0);
@@ -88,7 +88,7 @@ class ItemServiceTest {
         ItemResponse result = itemService.atualizarItem(id, itemRequest);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeItem().isEmpty());
         assertFalse(result.getDescricaoItem().isEmpty());
         assertNotNull(result.getValorItem());
@@ -101,6 +101,19 @@ class ItemServiceTest {
         when(itemRepository.findById(id)).thenReturn(Optional.of(itemMock));
 
         assertDoesNotThrow(() -> itemService.deletarItem(id));
+
+    }
+
+    @Test
+    void testListarItensPorListIds() {
+        Pageable pageable = Pageable.unpaged();
+        Page<Item> itensMock = new PageImpl<>(List.of(fakeItem(), fakeItem()));
+        when(itemRepository.findByListId(any(), any())).thenReturn(itensMock);
+
+        Page<ItemResponse> result = itemService.obterItensPorListIds(List.of(1L, 2L), pageable);
+
+        assertNotNull(result);
+        assertTrue(result.getTotalElements() > 0);
 
     }
 

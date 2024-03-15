@@ -25,14 +25,14 @@ public class ServicoRequest {
     private BigDecimal valorServico;
 
     @NotNull
-    private Long idHotel;
+    private Long idPropriedade;
 
     public Servico toDomain() {
         return new Servico(
           this.nomeServico,
           this.descricaoServico,
           this.valorServico,
-          this.idHotel
+          this.idPropriedade
         );
     }
 }

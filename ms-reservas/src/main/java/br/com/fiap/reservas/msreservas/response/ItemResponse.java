@@ -1,6 +1,5 @@
-package br.com.fiap.servicos.hospedagem.msservicosopcionais.response;
+package br.com.fiap.reservas.msreservas.response;
 
-import br.com.fiap.servicos.hospedagem.msservicosopcionais.domain.Item;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-
 
 @Getter
 @Schema
@@ -36,11 +34,4 @@ public class ItemResponse {
     @Schema(description = "ID da propriedade associado ao item")
     private Long idPropriedade;
 
-    public ItemResponse(Item item) {
-        this.id = item.getId();
-        this.nomeItem = item.getNomeItem();
-        this.descricaoItem = item.getDescricaoItem();
-        this.valorItem = item.getValorItem();
-        this.idPropriedade = item.getIdPropriedade();
-    }
 }

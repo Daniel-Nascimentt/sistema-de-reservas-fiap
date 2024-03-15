@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/quartos")
 public class QuartoController {
@@ -47,4 +49,10 @@ public class QuartoController {
             Pageable pageable) {
         return ResponseEntity.ok(quartoService.getAllQuartosByLocalidade(localidadeId, pageable));
     }
+
+    @PostMapping("/listarPorIds")
+    public Page<QuartoResponse> obterQuartosPorListDeIds(@RequestBody List<Long> ids, Pageable pageable){
+        return quartoService.obterQuartosPorListDeIds(ids, pageable);
+    }
+
 }

@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class QuartoService {
 
@@ -107,5 +109,10 @@ public class QuartoService {
                     quartoProjection.getValorDiaria()
             );
         });
+    }
+
+    public Page<QuartoResponse> obterQuartosPorListDeIds(List<Long> ids, Pageable pageable) {
+        Page<Quarto> quartos = quartoRepository.findByListId(ids, pageable);
+        return quartos.map(QuartoResponse::new);
     }
 }

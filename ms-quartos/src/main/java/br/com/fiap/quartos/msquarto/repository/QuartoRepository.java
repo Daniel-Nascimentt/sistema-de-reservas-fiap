@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface QuartoRepository extends JpaRepository<Quarto, Long> {
 
     @Query(value = "SELECT q.id AS quartoId, q.tipo_quarto AS tipoQuarto, q.descricao_quarto AS descricaoQuarto, q.total_hospedes AS totalHospedes, q.valor_diaria AS valorDiaria, "
@@ -22,4 +24,6 @@ public interface QuartoRepository extends JpaRepository<Quarto, Long> {
             nativeQuery = true)
     Page<QuartoProjection> findAllQuartosByLocalidade(@Param("localidadeId") Long localidadeId, Pageable pageable);
 
+    @Query(value = "SELECT * FROM QUARTOS WHERE ID IN (:ids)", nativeQuery = true)
+    Page<Quarto> findByListId(@Param("ids") List<Long> ids, Pageable pageable);
 }

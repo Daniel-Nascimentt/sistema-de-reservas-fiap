@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ItemService {
 
@@ -34,9 +36,9 @@ public class ItemService {
         return new ItemResponse(item);
     }
 
-    public Page<ItemResponse> listarItensPorHotel(Long id, Pageable pageable) {
+    public Page<ItemResponse> listarItensPorPropriedade(Long id, Pageable pageable) {
         logger.info("Listando itens paginadamente...");
-        Page<Item> itens = itemRepository.findByIdHotel(id, pageable);
+        Page<Item> itens = itemRepository.findByIdPropriedade(id, pageable);
         logger.info("Número total de itens encontrados: {}", itens.getTotalElements());
         return itens.map(ItemResponse::new);
     }
@@ -55,5 +57,13 @@ public class ItemService {
         Item item = itemRepository.findById(id).orElseThrow(ItemNaoEncontradoException::new);
         itemRepository.delete(item);
         logger.info("Item deletado com sucesso");
+    }
+
+
+    public Page<ItemResponse> obterItensPorListIds(List<Long> ids, Pageable pageable) {
+        logger.info("Listando itens com ids {}...", ids);
+        Page<Item> itens = itemRepository.findByListId(ids, pageable);
+        logger.info("Número total de itens encontrados: {}", itens.getTotalElements());
+        return itens.map(ItemResponse::new);
     }
 }

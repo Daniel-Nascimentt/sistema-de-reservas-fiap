@@ -29,19 +29,19 @@ public class Item {
     private BigDecimal valorItem;
 
     @NotNull
-    private Long idHotel;
+    private Long idPropriedade;
 
-    public Item(String nomeItem, String descricaoItem, BigDecimal valorItem, Long idHotel) {
+    public Item(String nomeItem, String descricaoItem, BigDecimal valorItem, Long idPropriedade) {
         this.nomeItem = nomeItem;
         this.descricaoItem = descricaoItem;
         this.valorItem = valorItem;
-        this.idHotel = idHotel;
+        this.idPropriedade = idPropriedade;
     }
 
     public void atualizar(ItemRequest itemRequest) {
         this.nomeItem = itemRequest.getNomeItem();
         this.descricaoItem = itemRequest.getDescricaoItem();
         this.valorItem = itemRequest.getValorItem();
-        this.idHotel = itemRequest.getIdHotel();
+        this.idPropriedade = itemRequest.getIdPropriedade();
     }
 }

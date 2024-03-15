@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServicoService {
 
@@ -34,9 +36,9 @@ public class ServicoService {
         return new ServicoResponse(servico);
     }
 
-    public Page<ServicoResponse> listarServicosPorHotel(Long id, Pageable pageable) {
+    public Page<ServicoResponse> listarServicosPorPropriedade(Long id, Pageable pageable) {
         logger.info("Listando serviços paginadamente...");
-        Page<Servico> servicos = servicoRepository.findByIdHotel(id, pageable);
+        Page<Servico> servicos = servicoRepository.findByIdPropriedade(id, pageable);
         logger.info("Número total de serviços encontrados: {}", servicos.getTotalElements());
         return servicos.map(ServicoResponse::new);
     }
@@ -55,5 +57,12 @@ public class ServicoService {
         Servico servico = servicoRepository.findById(id).orElseThrow(ServicoNaoEncontradoException::new);
         servicoRepository.delete(servico);
         logger.info("Serviço deletado com sucesso");
+    }
+
+    public Page<ServicoResponse> obterServicoPorListaIds(List<Long> ids, Pageable pageable) {
+        logger.info("Listando serviços com ids: {}...", ids);
+        Page<Servico> servicos = servicoRepository.findByListIds(ids, pageable);
+        logger.info("Número total de serviços encontrados: {}", servicos.getTotalElements());
+        return servicos.map(ServicoResponse::new);
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +47,7 @@ class ItemControllerTest {
                         .content(objectMapper.writeValueAsString(itemRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nomeItem").value(itemResponse.getNomeItem()))
-                .andExpect(jsonPath("$.idHotel").isNotEmpty());
+                .andExpect(jsonPath("$.idPropriedade").isNotEmpty());
     }
 
     @Test
@@ -61,16 +60,16 @@ class ItemControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/itens/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nomeItem").value(itemResponse.getNomeItem()))
-                .andExpect(jsonPath("$.idHotel").isNotEmpty());
+                .andExpect(jsonPath("$.idPropriedade").isNotEmpty());
     }
 
     @Test
-    void testListarItensPorHotel() throws Exception {
+    void testListarItensPorPropriedade() throws Exception {
         Page<ItemResponse> itensResponse = new PageImpl<>(List.of(fakeResponse()));
 
-        when(itemService.listarItensPorHotel(any(), any())).thenReturn(itensResponse);
+        when(itemService.listarItensPorPropriedade(any(), any())).thenReturn(itensResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/itens/itensHotel/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.get("/itens/itensPropriedade/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -88,7 +87,7 @@ class ItemControllerTest {
                         .content(objectMapper.writeValueAsString(itemRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nomeItem").value(itemResponse.getNomeItem()))
-                .andExpect(jsonPath("$.idHotel").isNotEmpty());
+                .andExpect(jsonPath("$.idPropriedade").isNotEmpty());
     }
 
     @Test
@@ -98,6 +97,18 @@ class ItemControllerTest {
        mockMvc.perform(MockMvcRequestBuilders.delete("/itens/{id}", id))
                 .andExpect(status().isNoContent());
 
+    }
+
+    @Test
+    void testListarItensPorListIds() throws Exception {
+        Page<ItemResponse> itensResponse = new PageImpl<>(List.of(fakeResponse()));
+
+        when(itemService.obterItensPorListIds(any(), any())).thenReturn(itensResponse);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/itens/listarPorIds")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(List.of(1L))))
+                .andExpect(status().isOk());
     }
 
     private ItemResponse fakeResponse() {

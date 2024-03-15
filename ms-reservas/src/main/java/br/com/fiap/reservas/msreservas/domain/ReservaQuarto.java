@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "DISPONIBILIDADE_QUARTOS")
+@Table(name = "RESERVA_QUARTO")
 @Getter
 @NoArgsConstructor
-public class DisponibilidadeQuarto {
+public class ReservaQuarto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,6 +21,16 @@ public class DisponibilidadeQuarto {
     @NotNull
     private Long idQuarto;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private StatusQuarto statusQuarto;
 
+    public ReservaQuarto(Reserva reserva, Long idQuarto, StatusQuarto statusQuarto) {
+        this.reserva = reserva;
+        this.idQuarto = idQuarto;
+        this.statusQuarto = statusQuarto;
+    }
+
+    public void reservar(){
+        this.statusQuarto = StatusQuarto.RESERVADO;
+    }
 }

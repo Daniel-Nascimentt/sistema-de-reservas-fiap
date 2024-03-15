@@ -29,13 +29,13 @@ public class Servico {
     private BigDecimal valorServico;
 
     @NotNull
-    private Long idHotel;
+    private Long idPropriedade;
 
-    public Servico(String nomeServico, String descricaoServico, BigDecimal valorServico, Long idHotel) {
+    public Servico(String nomeServico, String descricaoServico, BigDecimal valorServico, Long idPropriedade) {
         this.nomeServico = nomeServico;
         this.descricaoServico = descricaoServico;
         this.valorServico = valorServico;
-        this.idHotel = idHotel;
+        this.idPropriedade = idPropriedade;
     }
 
     public void atualizar(ServicoRequest servicoRequest) {

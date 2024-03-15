@@ -44,6 +44,8 @@ services:
       - meu-postgres
     networks:
       - my_network
+    ports:
+      - 8082:8082
 
   ms-quartos:
     container_name: ms-quartos

@@ -40,7 +40,7 @@ public class ServicoServiceTest {
         ServicoResponse result = servicoService.criarServico(servicoRequest);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeServico().isEmpty());
         assertFalse(result.getDescricaoServico().isEmpty());
         assertNotNull(result.getValorServico());
@@ -55,7 +55,7 @@ public class ServicoServiceTest {
         ServicoResponse result = servicoService.obterServicoPorId(id);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeServico().isEmpty());
         assertFalse(result.getDescricaoServico().isEmpty());
         assertNotNull(result.getValorServico());
@@ -65,9 +65,9 @@ public class ServicoServiceTest {
     void testListarServicosPorHotel() {
         Page<Servico> servicosPage = new PageImpl<>(List.of(fakeServico(), fakeServico()));
 
-        Mockito.when(servicoRepository.findByIdHotel(any(), any())).thenReturn(servicosPage);
+        Mockito.when(servicoRepository.findByIdPropriedade(any(), any())).thenReturn(servicosPage);
 
-        Page<ServicoResponse> result = servicoService.listarServicosPorHotel(1L, Pageable.unpaged());
+        Page<ServicoResponse> result = servicoService.listarServicosPorPropriedade(1L, Pageable.unpaged());
 
         assertNotNull(result);
         assertTrue(result.getTotalElements() > 0);
@@ -88,7 +88,7 @@ public class ServicoServiceTest {
         ServicoResponse result = servicoService.atualizarServico(id, servicoRequest);
 
         assertNotNull(result);
-        assertNotNull(result.getIdHotel());
+        assertNotNull(result.getIdPropriedade());
         assertFalse(result.getNomeServico().isEmpty());
         assertFalse(result.getDescricaoServico().isEmpty());
         assertNotNull(result.getValorServico());
@@ -111,6 +111,19 @@ public class ServicoServiceTest {
         Mockito.when(servicoRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(ServicoNaoEncontradoException.class, () -> servicoService.deletarServico(id));
+    }
+
+
+    @Test
+    void testListarServicosPorPropriedade() {
+        Page<Servico> servicosPage = new PageImpl<>(List.of(fakeServico(), fakeServico()));
+
+        Mockito.when(servicoRepository.findByListIds(any(), any())).thenReturn(servicosPage);
+
+        Page<ServicoResponse> result = servicoService.obterServicoPorListaIds(List.of(1L, 1L), Pageable.unpaged());
+
+        assertNotNull(result);
+        assertTrue(result.getTotalElements() > 0);
     }
 
     private Servico fakeServico(){

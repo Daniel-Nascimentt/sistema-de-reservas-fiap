@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/servicos")
 public class ServicoController {
@@ -29,9 +31,9 @@ public class ServicoController {
         return ResponseEntity.ok(servicoService.obterServicoPorId(id));
     }
 
-    @GetMapping("/servicosHotel/{id}")
-    public ResponseEntity<Page<ServicoResponse>> listarServicosPorHotel(@PathVariable Long id, Pageable pageable) {
-        return ResponseEntity.ok(servicoService.listarServicosPorHotel(id, pageable));
+    @GetMapping("/servicosPropriedade/{id}")
+    public ResponseEntity<Page<ServicoResponse>> listarServicosPorPropriedade(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(servicoService.listarServicosPorPropriedade(id, pageable));
     }
 
     @PutMapping("/{id}")
@@ -43,6 +45,11 @@ public class ServicoController {
     public ResponseEntity<Void> deletarServico(@PathVariable Long id) throws ServicoNaoEncontradoException {
         servicoService.deletarServico(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/listarPorIds")
+    public Page<ServicoResponse> obterServicoPorListaIds(@RequestBody List<Long> ids, Pageable pageable) throws ServicoNaoEncontradoException {
+        return servicoService.obterServicoPorListaIds(ids, pageable);
     }
 
 }

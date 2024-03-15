@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/itens")
 public class ItemController {
@@ -29,9 +31,9 @@ public class ItemController {
         return ResponseEntity.ok(itemService.obterItemPorId(id));
     }
 
-    @GetMapping("/itensHotel/{id}")
-    public ResponseEntity<Page<ItemResponse>> listarItensPorHotel(@PathVariable Long id, Pageable pageable) {
-        return ResponseEntity.ok(itemService.listarItensPorHotel(id, pageable));
+    @GetMapping("/itensPropriedade/{id}")
+    public ResponseEntity<Page<ItemResponse>> listarItensPorPropriedade(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(itemService.listarItensPorPropriedade(id, pageable));
     }
 
     @PutMapping("/{id}")
@@ -43,5 +45,10 @@ public class ItemController {
     public ResponseEntity<Void> deletarItem(@PathVariable Long id) throws ItemNaoEncontradoException {
         itemService.deletarItem(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/listarPorIds")
+    public Page<ItemResponse> obterItensPorListDeIds(@RequestBody List<Long> ids, Pageable pageable) throws ItemNaoEncontradoException {
+        return itemService.obterItensPorListIds(ids, pageable);
     }
 }
