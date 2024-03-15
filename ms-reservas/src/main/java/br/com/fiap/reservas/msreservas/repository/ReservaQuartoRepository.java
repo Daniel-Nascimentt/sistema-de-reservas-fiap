@@ -8,10 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ReservaQuartoRepository extends JpaRepository<ReservaQuarto, Long> {
-    @Query(value = "SELECT dq.id AS idQuarto " +
-            "FROM RESERVA_QUARTO dq " +
-            "INNER JOIN reservas r ON dq.reserva_codigo_reserva = r.codigo_reserva " +
-            "WHERE r.checkin >= :checkinRequest AND r.checkout <= :checkoutRequest",
+    @Query(value = "SELECT rq.id_quarto AS idQuarto " +
+            "FROM RESERVA_QUARTO rq " +
+            "INNER JOIN reservas r ON rq.codigo_reserva = r.codigo_reserva " +
+            "WHERE :checkinRequest between r.checkin AND r.checkout " +
+            "OR :checkoutRequest between r.checkin AND r.checkout ",
             nativeQuery = true)
     List<Long> findQuartosDisponiveisBetweenCheckinAndCheckout(LocalDate checkinRequest, LocalDate checkoutRequest);
 }

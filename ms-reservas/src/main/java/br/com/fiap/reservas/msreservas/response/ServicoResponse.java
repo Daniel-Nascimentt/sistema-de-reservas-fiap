@@ -22,15 +22,19 @@ public class ServicoResponse {
     @Schema(description = "Nome do serviço")
     private String nomeServico;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @Schema(description = "Descrição do serviço")
-    private String descricaoServico;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "Valor do serviço")
     private BigDecimal valorServico;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Schema(description = "ID da propriedade associado ao serviço")
+    @Schema(description = "ID da propriedade associado ao servico")
     private Long idPropriedade;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "ID da propriedade associado ao serviço")
+    private Long quantidade;
+
+    public void setQuantidade(Long quantidade) {
+        this.quantidade = quantidade;
+    }
 }

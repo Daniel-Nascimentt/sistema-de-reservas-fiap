@@ -22,10 +22,6 @@ public class ItemResponse {
     @Schema(description = "Nome do item")
     private String nomeItem;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @Schema(description = "Descrição do item")
-    private String descricaoItem;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "Valor do item")
     private BigDecimal valorItem;
@@ -34,4 +30,11 @@ public class ItemResponse {
     @Schema(description = "ID da propriedade associado ao item")
     private Long idPropriedade;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "Quantidade do item")
+    private Long quantidade;
+
+    public void setQuantidade(Long quantidade) {
+        this.quantidade = quantidade;
+    }
 }

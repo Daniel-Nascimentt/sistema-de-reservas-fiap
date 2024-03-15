@@ -1,14 +1,17 @@
 package br.com.fiap.reservas.msreservas.service;
 
+import br.com.fiap.reservas.msreservas.client.MsClientesClient;
 import br.com.fiap.reservas.msreservas.client.MsQuartosClient;
 import br.com.fiap.reservas.msreservas.client.MsServicosClient;
 import br.com.fiap.reservas.msreservas.domain.Reserva;
 import br.com.fiap.reservas.msreservas.domain.TipoBanheiro;
 import br.com.fiap.reservas.msreservas.domain.TipoQuarto;
-import br.com.fiap.reservas.msreservas.exception.QuartoJaReservadoException;
+import br.com.fiap.reservas.msreservas.exception.*;
 import br.com.fiap.reservas.msreservas.repository.ReservaQuartoRepository;
 import br.com.fiap.reservas.msreservas.repository.ReservaRepository;
+import br.com.fiap.reservas.msreservas.request.ItemRequest;
 import br.com.fiap.reservas.msreservas.request.NovaReservaRequest;
+import br.com.fiap.reservas.msreservas.request.ServicoRequest;
 import br.com.fiap.reservas.msreservas.response.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,13 +26,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class ReservaServiceTest {
@@ -45,6 +49,9 @@ public class ReservaServiceTest {
 
     @Mock
     private ReservaRepository reservaRepository;
+
+    @Mock
+    private MsClientesClient msClientesClient;
 
     @InjectMocks
     private ReservaService reservaService;
@@ -73,10 +80,12 @@ public class ReservaServiceTest {
 
         assertNotNull(result);
         assertEquals(2, result.getTotalElements());
+        verify(msQuartosClient, times(1)).getAllQuartosByLocalidade(idLocalidade);
+        verify(reservaQuartoRepository, times(1)).findQuartosDisponiveisBetweenCheckinAndCheckout(checkin, checkout);
     }
 
     @Test
-    public void testPreReservar() throws QuartoJaReservadoException {
+    public void testPreReservar() throws QuartoJaReservadoException, DatacheckinInvalida {
         NovaReservaRequest request = fakeRequest();
 
         List<QuartoResponse> quartos = Arrays.asList(
@@ -85,42 +94,97 @@ public class ReservaServiceTest {
         );
 
         List<ServicoResponse> servicos = Arrays.asList(
-                new ServicoResponse(1L, "Serviço 1", "Descricao 1", BigDecimal.valueOf(50), 1L),
-                new ServicoResponse(2L, "Serviço 2", "Descricao 2", BigDecimal.valueOf(75), 2L)
+                new ServicoResponse(1L, "Serviço 1", BigDecimal.valueOf(50), 1L, 1L),
+                new ServicoResponse(2L, "Serviço 2", BigDecimal.valueOf(75), 2L, 1L)
         );
 
         List<ItemResponse> itens = Arrays.asList(
-                new ItemResponse(1L, "Item 1", "Descricao 1", BigDecimal.valueOf(20), 1L),
-                new ItemResponse(2L, "Item 2", "Descricao 2", BigDecimal.valueOf(30), 2L)
+                new ItemResponse(1L, "Item 1", BigDecimal.valueOf(20), 1L, 1L),
+                new ItemResponse(2L, "Item 2", BigDecimal.valueOf(30), 2L, 1L)
         );
 
         when(msQuartosClient.obterQuartosPorListIds(request.getIdsQuarto(), Pageable.unpaged())).thenReturn(new PageImpl<>(quartos));
         when(reservaQuartoRepository.findQuartosDisponiveisBetweenCheckinAndCheckout(request.getCheckin(), request.getCheckout())).thenReturn(new ArrayList<>());
-        when(msServicosClient.obterServicoPorListaIds(request.getIdsServicos(), Pageable.unpaged())).thenReturn(new PageImpl<>(servicos));
-        when(msServicosClient.obterItensPorListDeIds(request.getIdsItens(), Pageable.unpaged())).thenReturn(new PageImpl<>(itens));
-        when(reservaRepository.save(any())).thenReturn(new Reserva());
+        when(msServicosClient.obterServicoPorListaIds(any(), any())).thenReturn(new PageImpl<>(servicos));
+        when(msServicosClient.obterItensPorListDeIds(any(), any())).thenReturn(new PageImpl<>(itens));
+        when(msClientesClient.buscarClientePorId(request.getIdCliente())).thenReturn(fakeClienteResponse());
+        Reserva reserva = new Reserva(LocalDate.now(), LocalDate.now().plusDays(1), LocalDateTime.now(), request.getIdCliente());
+        reserva.setCodigoReserva(UUID.randomUUID());
+        when(reservaRepository.save(any())).thenReturn(reserva);
 
         ReservaResponse result = reservaService.preReservar(request);
 
         assertNotNull(result);
+        verify(msQuartosClient, times(1)).obterQuartosPorListIds(request.getIdsQuarto(), Pageable.unpaged());
+        verify(reservaQuartoRepository, times(1)).findQuartosDisponiveisBetweenCheckinAndCheckout(request.getCheckin(), request.getCheckout());
+        verify(msServicosClient, times(1)).obterServicoPorListaIds(any(), any());
+        verify(msServicosClient, times(1)).obterItensPorListDeIds(any(), any());
+        verify(msClientesClient, times(1)).buscarClientePorId(request.getIdCliente());
+        verify(reservaRepository, times(2)).save(any());
     }
 
     @Test
-    public void testPreReservarQuartoJaReservadoException() {
+    public void testPreReservarQuartoJaReservadoException() throws DatacheckinInvalida {
         NovaReservaRequest request = fakeRequest();
 
         when(reservaQuartoRepository.findQuartosDisponiveisBetweenCheckinAndCheckout(request.getCheckin(), request.getCheckout()))
                 .thenReturn(Arrays.asList(1L));
 
         assertThrows(QuartoJaReservadoException.class, () -> reservaService.preReservar(request));
+        verify(reservaQuartoRepository, times(1)).findQuartosDisponiveisBetweenCheckinAndCheckout(request.getCheckin(), request.getCheckout());
+        verify(msQuartosClient, never()).obterQuartosPorListIds(anyList(), any());
+        verify(msServicosClient, never()).obterServicoPorListaIds(anyList(), any());
+        verify(msServicosClient, never()).obterItensPorListDeIds(anyList(), any());
+        verify(msClientesClient, never()).buscarClientePorId(anyLong());
+        verify(reservaRepository, never()).save(any());
     }
 
+    @Test
+    void testAtualizarReserva() throws OperacaoReservaNaoPermitidaException, ClienteInvalidoException, ReservaNaoEncontradaException, DatacheckinInvalida {
+        NovaReservaRequest request = fakeRequest();
+        UUID codigoReserva = UUID.randomUUID();
+        Reserva reserva = new Reserva(LocalDate.now(), LocalDate.now().plusDays(1), LocalDateTime.now(), request.getIdCliente());
+        reserva.setCodigoReserva(codigoReserva);
+
+        when(reservaRepository.findById(codigoReserva)).thenReturn(java.util.Optional.of(reserva));
+        when(msClientesClient.buscarClientePorId(request.getIdCliente())).thenReturn(fakeClienteResponse());
+        when(reservaRepository.save(any())).thenReturn(reserva);
+
+        List<ServicoResponse> servicos = new ArrayList<>();
+        List<ItemResponse> itens = new ArrayList<>();
+        List<QuartoResponse> quartos = new ArrayList<>();
+
+        when(msServicosClient.obterServicoPorListaIds(any(), any())).thenReturn(new PageImpl<>(servicos));
+        when(msServicosClient.obterItensPorListDeIds(any(), any())).thenReturn(new PageImpl<>(itens));
+        when(msQuartosClient.obterQuartosPorListIds(any(), any())).thenReturn(new PageImpl<>(quartos));
+
+        ReservaResponse reservaResponse = reservaService.atualizarReserva(request, codigoReserva);
+        assertNotNull(reservaResponse);
+
+        verify(reservaRepository, times(1)).findById(any());
+        verify(msClientesClient, times(1)).buscarClientePorId(any());
+        verify(msServicosClient, times(1)).obterServicoPorListaIds(any(), any());
+        verify(msServicosClient, times(1)).obterItensPorListDeIds(any(), any());
+        verify(msQuartosClient, times(1)).obterQuartosPorListIds(any(), any());
+        verify(reservaRepository, times(1)).save(any());
+    }
+
+    @Test
+    void testDeletarReserva() throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException {
+        UUID codigoReserva = UUID.randomUUID();
+        Reserva reserva = new Reserva(LocalDate.now(), LocalDate.now().plusDays(1), LocalDateTime.now(), 1L);
+        reserva.setCodigoReserva(codigoReserva);
+        when(reservaRepository.findById(codigoReserva)).thenReturn(java.util.Optional.of(reserva));
+        reservaService.deletarReserva(codigoReserva);
+        verify(reservaRepository, times(1)).findById(codigoReserva);
+        verify(reservaRepository, times(1)).delete(reserva);
+    }
 
     private NovaReservaRequest fakeRequest(){
         return new NovaReservaRequest(
                 Arrays.asList(1L, 2L),
-                Arrays.asList(1L, 2L),
-                Arrays.asList(1L, 2L),
+                List.of(new ServicoRequest(1L, 1L)),
+                List.of(new ItemRequest(1L, 1L)),
                 1L,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1)
@@ -138,6 +202,14 @@ public class ReservaServiceTest {
                 "Cidade A",
                 2,
                 new BigDecimal("100.00")
+        );
+    }
+
+    private ClienteResponse fakeClienteResponse() {
+        return new ClienteResponse(
+                1L,
+                "123456789",
+                "John Doe"
         );
     }
 }

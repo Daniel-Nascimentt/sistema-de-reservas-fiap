@@ -51,4 +51,9 @@ public class QuartoResponse {
     @Schema(description = "Valor da diaria do quarto")
     private BigDecimal valorDiaria;
 
+    public QuartoResponse(Long idQuarto, int totalHospedes, String enderecoPropriedade) {
+        this.idQuarto = idQuarto;
+        this.totalHospedes = totalHospedes;
+        this.enderecoPropriedade = enderecoPropriedade;
+    }
 }

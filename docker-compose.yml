@@ -30,6 +30,8 @@ services:
       - meu-postgres
     networks:
       - my_network
+    ports:
+      - 8081:8081
 
   ms-servicos-opcionais:
     container_name: ms-servicos-opcionais
@@ -62,6 +64,14 @@ services:
       - my_network
     ports:
       - 8083:8083
+
+  ms-email:
+    container_name: ms-email
+    build:
+      context: ./ms-email 
+      dockerfile: Dockerfile
+    networks:
+      - my_network
 
 networks:
   my_network:

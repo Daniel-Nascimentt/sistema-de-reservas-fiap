@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "MsServicos", url = "${client.url.servicos}")
+@FeignClient(name = "ms-servicos", url = "${client.url.servicos}")
 public interface MsServicosClient {
 
     @PostMapping("/servicos/listarPorIds")

@@ -1,7 +1,6 @@
 package br.com.fiap.reservas.msreservas.controller;
 
-import br.com.fiap.reservas.msreservas.exception.QuartoJaReservadoException;
-import br.com.fiap.reservas.msreservas.exception.ReservaNaoEncontradaException;
+import br.com.fiap.reservas.msreservas.exception.*;
 import br.com.fiap.reservas.msreservas.request.DisponibilidadeRequest;
 import br.com.fiap.reservas.msreservas.request.NovaReservaRequest;
 import br.com.fiap.reservas.msreservas.response.QuartoResponse;
@@ -29,13 +28,29 @@ public class ReservaController {
     }
 
     @PostMapping(value = "/preReservar")
-    public ResponseEntity<ReservaResponse> preReserva(@RequestBody @Valid NovaReservaRequest request) throws QuartoJaReservadoException {
+    public ResponseEntity<ReservaResponse> preReserva(@RequestBody @Valid NovaReservaRequest request) throws QuartoJaReservadoException, DatacheckinInvalida {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.preReservar(request));
     }
 
-    @PostMapping(value = "/reservar/{codigoReserva}")
-    public ResponseEntity<ReservaResponse> reservar(@PathVariable String codigoReserva) throws ReservaNaoEncontradaException {
-        return ResponseEntity.ok(reservaService.reservar(UUID.fromString(codigoReserva)));
+    @PostMapping(value = "/reservar/{codigoReserva}/{idCliente}")
+    public ResponseEntity<ReservaResponse> reservar(@PathVariable String codigoReserva, @PathVariable Long idCliente) throws ReservaNaoEncontradaException, ClienteInvalidoException {
+        return ResponseEntity.ok(reservaService.reservar(UUID.fromString(codigoReserva), idCliente));
+    }
+
+    @GetMapping("/{codigoReserva}/{idCliente}")
+    public ResponseEntity<ReservaResponse> buscarReservaPorCodigo(@PathVariable String codigoReserva, @PathVariable Long idCliente) throws ReservaNaoEncontradaException, ClienteInvalidoException {
+        return ResponseEntity.ok(reservaService.buscarPorCodigo(UUID.fromString(codigoReserva), idCliente));
+    }
+
+    @PutMapping(value = "/{codigoReserva}")
+    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody @Valid NovaReservaRequest request, @PathVariable String codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DatacheckinInvalida {
+        return ResponseEntity.ok(reservaService.atualizarReserva(request, UUID.fromString(codigoReserva)));
+    }
+
+    @DeleteMapping(value = "/{codigoReserva}")
+    public ResponseEntity<ReservaResponse> deletarReserva(@PathVariable String codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException {
+        reservaService.deletarReserva(UUID.fromString(codigoReserva));
+        return ResponseEntity.noContent().build();
     }
 
 }

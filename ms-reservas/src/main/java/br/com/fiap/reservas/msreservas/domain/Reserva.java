@@ -1,8 +1,7 @@
 package br.com.fiap.reservas.msreservas.domain;
 
-import br.com.fiap.reservas.msreservas.request.NovaReservaRequest;
-import br.com.fiap.reservas.msreservas.response.ItemResponse;
-import br.com.fiap.reservas.msreservas.response.ServicoResponse;
+import br.com.fiap.reservas.msreservas.exception.ClienteInvalidoException;
+import br.com.fiap.reservas.msreservas.exception.OperacaoReservaNaoPermitidaException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -24,23 +23,30 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID codigoReserva;
-    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaQuarto> quartos = new ArrayList<>();
     @NotNull
     private LocalDate checkin;
     @NotNull
     private LocalDate checkout;
-    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OpcionaisReserva> servicosOpcionais = new ArrayList<>();
     @NotNull
     private LocalDateTime dataPreReserva;
     @NotNull
+    private Long idcliente;
+    @NotNull
     private BigDecimal valorTotalReserva = new BigDecimal("0");
 
-    public Reserva(LocalDate checkin, LocalDate checkout, LocalDateTime dataPreReserva) {
+    public Reserva(LocalDate checkin, LocalDate checkout, LocalDateTime dataPreReserva, Long idCliente) {
         this.checkin = checkin;
         this.checkout = checkout;
         this.dataPreReserva = dataPreReserva;
+        this.idcliente = idCliente;
+    }
+
+    public void setCodigoReserva(UUID codigoReserva) {
+        this.codigoReserva = codigoReserva;
     }
 
     public void addOpcional(OpcionaisReserva opcionaisReserva) {
@@ -57,5 +63,35 @@ public class Reserva {
 
     public void confirmarReserva() {
         this.quartos.forEach(ReservaQuarto::reservar);
+    }
+
+    public void validarStatusReservado() throws OperacaoReservaNaoPermitidaException {
+        boolean quartosReservados = this.quartos.stream()
+                .anyMatch(q -> q.getStatusQuarto().equals(StatusQuarto.RESERVADO));
+        if (quartosReservados) {
+            throw new OperacaoReservaNaoPermitidaException();
+        }
+    }
+
+    public void clearOpcional() {
+        this.servicosOpcionais.clear();
+    }
+
+    public void clearQuartos() {
+        this.quartos.clear();
+    }
+
+    public void zerarValorDiaria() {
+        this.valorTotalReserva = new BigDecimal("0");
+    }
+
+    public void atualizarDataPreReserva() {
+        this.dataPreReserva = LocalDateTime.now();
+    }
+
+    public void validarTitularidade(Long idCliente) throws ClienteInvalidoException {
+        if(!this.idcliente.equals(idCliente)){
+            throw new ClienteInvalidoException();
+        }
     }
 }

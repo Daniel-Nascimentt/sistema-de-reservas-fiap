@@ -16,7 +16,8 @@ public class ReservaQuarto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "codigo_reserva")
     private Reserva reserva;
     @NotNull
     private Long idQuarto;
@@ -33,4 +34,5 @@ public class ReservaQuarto {
     public void reservar(){
         this.statusQuarto = StatusQuarto.RESERVADO;
     }
+
 }

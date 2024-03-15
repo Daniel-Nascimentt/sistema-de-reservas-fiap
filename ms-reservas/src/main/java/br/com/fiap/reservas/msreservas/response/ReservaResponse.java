@@ -3,6 +3,7 @@ package br.com.fiap.reservas.msreservas.response;
 import br.com.fiap.reservas.msreservas.domain.Reserva;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @Schema
+@AllArgsConstructor
 public class ReservaResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -30,6 +32,8 @@ public class ReservaResponse {
     private List<OpcionaisReservaResponse> servicosOpcionais;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime dataPreReserva;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long idCLiente;
 
     public ReservaResponse(Reserva reserva) {
         this.codigoReserva = reserva.getCodigoReserva();
@@ -38,5 +42,6 @@ public class ReservaResponse {
         this.checkout = reserva.getCheckout();
         this.servicosOpcionais = reserva.getServicosOpcionais().stream().map(OpcionaisReservaResponse::new).collect(Collectors.toList());
         this.dataPreReserva = reserva.getDataPreReserva();
+        this.idCLiente = reserva.getIdcliente();
     }
 }

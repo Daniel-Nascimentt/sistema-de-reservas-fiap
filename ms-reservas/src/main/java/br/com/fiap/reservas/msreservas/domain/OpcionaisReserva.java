@@ -20,7 +20,8 @@ public class OpcionaisReserva {
     private Long id;
     @NotNull
     private String idOpcional;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "codigo_reserva")
     private Reserva reserva;
     @NotNull
     private BigDecimal valor;
