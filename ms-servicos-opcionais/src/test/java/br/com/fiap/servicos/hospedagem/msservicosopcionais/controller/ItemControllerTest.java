@@ -105,7 +105,7 @@ class ItemControllerTest {
 
         when(itemService.obterItensPorListIds(any(), any())).thenReturn(itensResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/itens/listarPorIds")
+        mockMvc.perform(MockMvcRequestBuilders.post("/itens/listarPorIds")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(List.of(1L))))
                 .andExpect(status().isOk());

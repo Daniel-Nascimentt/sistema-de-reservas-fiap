@@ -4,6 +4,7 @@ import br.com.fiap.reservas.msreservas.response.ItemResponse;
 import br.com.fiap.reservas.msreservas.response.ServicoResponse;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Table(name = "OPCIONAIS_RESERVA")
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class OpcionaisReserva {
 
     @Id

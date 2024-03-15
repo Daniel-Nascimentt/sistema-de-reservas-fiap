@@ -164,7 +164,8 @@ class ReservaControllerTest {
                 LocalDate.now().plusDays(1),
                 List.of(new OpcionaisReservaResponse("1", BigDecimal.valueOf(10), 1L)),
                 LocalDateTime.now(),
-                1L
+                1L,
+                List.of(new QuartoResponse())
         );
     }
 }

@@ -74,7 +74,7 @@ public class ReservaService {
         ClienteResponse cliente = obterClientePorId(request.getIdCliente());
         Reserva reserva = criarEGravarReserva(request, servicos, itens, quartos, cliente);
         logger.info("Pré-reserva concluída com sucesso.");
-        return new ReservaResponse(reserva);
+        return new ReservaResponse(reserva, getQuartosResponse(reserva.getQuartos()));
     }
 
     private ClienteResponse obterClientePorId(Long idCliente) {
@@ -182,7 +182,7 @@ public class ReservaService {
         logger.info("Adicionando serviço(s) à reserva...");
         servicos.forEach(s -> {
             // SE CHEGOU AQUI "request.getServos" NAO É NULL
-            Long quantidade = new ArrayList<>(request.getServicos()).stream().filter(f -> f.getIdServico().equals(s.getId())).findFirst().get().getQuantidade();
+            Long quantidade = new ArrayList<>(request.getServicos()).stream().filter(f -> f.getIdServico().equals(s.getId())).findFirst().orElseThrow().getQuantidade();
             reserva.addOpcional(new OpcionaisReserva(s, reserva, quantidade));
             reserva.somarAoTotalReserva(s.getValorServico().multiply(new BigDecimal(s.getQuantidade())));
         });
@@ -193,7 +193,7 @@ public class ReservaService {
         logger.info("Adicionando item(s) à reserva...");
         itens.forEach(i -> {
             // SE CHEGOU AQUI "request.getItens" NAO É NULL
-            Long quantidade = new ArrayList<>(request.getItens()).stream().filter(f -> f.getIdItem().equals(i.getId())).findFirst().get().getQuantidade();
+            Long quantidade = new ArrayList<>(request.getItens()).stream().filter(f -> f.getIdItem().equals(i.getId())).findFirst().orElseThrow().getQuantidade();
             reserva.addOpcional(new OpcionaisReserva(i, reserva, quantidade));
             reserva.somarAoTotalReserva(i.getValorItem().multiply(new BigDecimal(i.getQuantidade())));
         });
@@ -217,10 +217,20 @@ public class ReservaService {
         ClienteResponse cliente = obterClientePorId(idCliente);
         reserva.validarTitularidade(cliente.getId());
         reserva.confirmarReserva();
-        ReservaResponse response = new ReservaResponse(reservaRepository.save(reserva));
+
+        ReservaResponse response = new ReservaResponse(reservaRepository.save(reserva), getQuartosResponse(reserva.getQuartos()));
         emailService.enviarEmail(response, cliente.getEmail());
         logger.info("Reserva confirmada com sucesso para o código de reserva: {}", codigoReserva);
         return response;
+    }
+
+    private List<QuartoResponse> getQuartosResponse(List<ReservaQuarto> quartos) {
+        List<Long> idsDosQuartos = quartos
+                .stream()
+                .map(ReservaQuarto::getIdQuarto)
+                .toList();
+
+        return msQuartosClient.obterQuartosPorListIds(idsDosQuartos, Pageable.unpaged()).getContent();
     }
 
     public ReservaResponse buscarPorCodigo(UUID codigoReserva, Long idCliente) throws ReservaNaoEncontradaException, ClienteInvalidoException {
@@ -229,8 +239,16 @@ public class ReservaService {
                 .orElseThrow(ReservaNaoEncontradaException::new);
         ClienteResponse cliente = obterClientePorId(idCliente);
         reserva.validarTitularidade(cliente.getId());
+
+        List<Long> idsDosQuartos = reserva.getQuartos()
+                .stream()
+                .map(ReservaQuarto::getIdQuarto)
+                .toList();
+
+        List<QuartoResponse> quartos = msQuartosClient.obterQuartosPorListIds(idsDosQuartos, Pageable.unpaged()).getContent();
+
         logger.info("Reserva encontrada com sucesso para o código de reserva: {}", codigoReserva);
-        return new ReservaResponse(reserva);
+        return new ReservaResponse(reserva, quartos);
     }
 
     public ReservaResponse atualizarReserva(NovaReservaRequest request, UUID codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException, ClienteInvalidoException, DataCheckinInvalidaException {
@@ -264,7 +282,7 @@ public class ReservaService {
         logger.info("Salvando reserva atualizada...");
         Reserva reservaAtualizada = reservaRepository.save(reserva);
         logger.info("Reserva atualizada com sucesso.");
-        return new ReservaResponse(reservaAtualizada);
+        return new ReservaResponse(reservaAtualizada, getQuartosResponse(reserva.getQuartos()));
     }
 
     public void deletarReserva(UUID codigoReserva) throws ReservaNaoEncontradaException, OperacaoReservaNaoPermitidaException {

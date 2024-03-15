@@ -100,13 +100,13 @@ class ServicoControllerTest {
 
     @Test
     void testListarServicosPorListIds() throws Exception {
-        Page<ServicoResponse> servicosPage = new PageImpl<>(Collections.emptyList());
+        Page<ServicoResponse> servicosPage = new PageImpl<>(List.of(fakeResponse()));
 
         when(servicoService.obterServicoPorListaIds(any(), any())).thenReturn(servicosPage);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/servicos/listarPorIds")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(List.of(1L))))
+        mockMvc.perform(MockMvcRequestBuilders.post("/servicos/listarPorIds")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(List.of(1L))))
                 .andExpect(status().isOk());
     }
 

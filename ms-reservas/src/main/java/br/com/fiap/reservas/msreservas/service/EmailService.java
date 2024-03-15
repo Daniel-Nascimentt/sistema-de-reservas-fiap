@@ -3,10 +3,7 @@ package br.com.fiap.reservas.msreservas.service;
 import br.com.fiap.reservas.msreservas.client.MsEmailClient;
 import br.com.fiap.reservas.msreservas.client.MsServicosClient;
 import br.com.fiap.reservas.msreservas.request.EmailRequest;
-import br.com.fiap.reservas.msreservas.response.ItemResponse;
-import br.com.fiap.reservas.msreservas.response.OpcionaisReservaResponse;
-import br.com.fiap.reservas.msreservas.response.ReservaResponse;
-import br.com.fiap.reservas.msreservas.response.ServicoResponse;
+import br.com.fiap.reservas.msreservas.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +35,26 @@ public class EmailService {
         StringBuilder emailContent = new StringBuilder();
         appendConfirmationHeader(emailContent, reserva);
         appendReservationDetails(emailContent, reserva);
+        appendQuartos(emailContent, reserva);
         appendOptionalItems(emailContent, reserva.getServicosOpcionais());
         appendClosingMessage(emailContent);
         return emailContent.toString();
+    }
+
+    private void appendQuartos(StringBuilder emailContent, ReservaResponse reserva) {
+
+        emailContent.append("Quartos escolhidos: \n");
+
+        for(QuartoResponse quarto : reserva.getQuartosDaReserva()){
+            emailContent.append("Quarto reservado: ").append(quarto.getTipoQuarto()).append("\n")
+                    .append("Descrição do quarto: ").append(quarto.getDescricaoQuarto()).append("\n")
+                    .append("Tipo de baheiro: ").append(quarto.getBanheiroResponse().getTipoBanheiro()).append("\n")
+                    .append("Descrição do banheiro: ").append(quarto.getBanheiroResponse().getDescricaoBanheiro()).append("\n")
+                    .append("Endereço: ").append(quarto.getEnderecoPropriedade()).append("\n")
+                    .append("Valor diaria: ").append(quarto.getValorDiaria()).append("\n")
+                    .append("Capacidade para hospedes: ").append(quarto.getTotalHospedes()).append("\n\n");
+        }
+
     }
 
     private void appendConfirmationHeader(StringBuilder emailContent, ReservaResponse reserva) {

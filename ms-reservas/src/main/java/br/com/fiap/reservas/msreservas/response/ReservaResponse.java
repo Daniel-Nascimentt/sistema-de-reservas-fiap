@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,6 +37,8 @@ public class ReservaResponse {
     private LocalDateTime dataPreReserva;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long idCLiente;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<QuartoResponse> quartosDaReserva = new ArrayList<>();
 
     public ReservaResponse(Reserva reserva) {
         this.codigoReserva = reserva.getCodigoReserva();
@@ -45,5 +48,16 @@ public class ReservaResponse {
         this.servicosOpcionais = reserva.getServicosOpcionais().stream().map(OpcionaisReservaResponse::new).collect(Collectors.toList());
         this.dataPreReserva = reserva.getDataPreReserva();
         this.idCLiente = reserva.getIdcliente();
+    }
+
+    public ReservaResponse(Reserva reserva, List<QuartoResponse> quartos) {
+        this.codigoReserva = reserva.getCodigoReserva();
+        this.valorTotalReserva = reserva.getValorTotalReserva();
+        this.checkin = reserva.getCheckin();
+        this.checkout = reserva.getCheckout();
+        this.servicosOpcionais = reserva.getServicosOpcionais().stream().map(OpcionaisReservaResponse::new).collect(Collectors.toList());
+        this.dataPreReserva = reserva.getDataPreReserva();
+        this.idCLiente = reserva.getIdcliente();
+        this.quartosDaReserva = quartos;
     }
 }

@@ -37,4 +37,5 @@ public class ItemResponse {
     public void setQuantidade(Long quantidade) {
         this.quantidade = quantidade;
     }
+
 }

@@ -3,6 +3,7 @@ package br.com.fiap.reservas.msreservas.service;
 import br.com.fiap.reservas.msreservas.client.MsClientesClient;
 import br.com.fiap.reservas.msreservas.client.MsQuartosClient;
 import br.com.fiap.reservas.msreservas.client.MsServicosClient;
+import br.com.fiap.reservas.msreservas.domain.OpcionaisReserva;
 import br.com.fiap.reservas.msreservas.domain.Reserva;
 import br.com.fiap.reservas.msreservas.domain.TipoBanheiro;
 import br.com.fiap.reservas.msreservas.domain.TipoQuarto;
@@ -94,13 +95,11 @@ public class ReservaServiceTest {
         );
 
         List<ServicoResponse> servicos = Arrays.asList(
-                new ServicoResponse(1L, "Serviço 1", BigDecimal.valueOf(50), 1L, 1L),
-                new ServicoResponse(2L, "Serviço 2", BigDecimal.valueOf(75), 2L, 1L)
+                new ServicoResponse(1L, "Serviço 1", BigDecimal.valueOf(50), 1L, 1L)
         );
 
         List<ItemResponse> itens = Arrays.asList(
-                new ItemResponse(1L, "Item 1", BigDecimal.valueOf(20), 1L, 1L),
-                new ItemResponse(2L, "Item 2", BigDecimal.valueOf(30), 2L, 1L)
+                new ItemResponse(1L, "Item 1", BigDecimal.valueOf(20), 1L, 1L)
         );
 
         when(msQuartosClient.obterQuartosPorListIds(request.getIdsQuarto(), Pageable.unpaged())).thenReturn(new PageImpl<>(quartos));
@@ -108,8 +107,23 @@ public class ReservaServiceTest {
         when(msServicosClient.obterServicoPorListaIds(any(), any())).thenReturn(new PageImpl<>(servicos));
         when(msServicosClient.obterItensPorListDeIds(any(), any())).thenReturn(new PageImpl<>(itens));
         when(msClientesClient.buscarClientePorId(request.getIdCliente())).thenReturn(fakeClienteResponse());
+        when(msQuartosClient.obterQuartosPorListIds(any(), any())).thenReturn(new PageImpl<>(List.of(fakeQuartoResponse())));
         Reserva reserva = new Reserva(LocalDate.now(), LocalDate.now().plusDays(1), LocalDateTime.now(), request.getIdCliente());
         reserva.setCodigoReserva(UUID.randomUUID());
+        reserva.getServicosOpcionais().add(new OpcionaisReserva(
+            1L,
+                "S_1",
+                reserva,
+                BigDecimal.TEN,
+                2L
+        ));
+        reserva.getServicosOpcionais().add(new OpcionaisReserva(
+            1L,
+                "I_1",
+                reserva,
+                BigDecimal.TEN,
+                2L
+        ));
         when(reservaRepository.save(any())).thenReturn(reserva);
 
         ReservaResponse result = reservaService.preReservar(request);
@@ -165,7 +179,7 @@ public class ReservaServiceTest {
         verify(msClientesClient, times(1)).buscarClientePorId(any());
         verify(msServicosClient, times(1)).obterServicoPorListaIds(any(), any());
         verify(msServicosClient, times(1)).obterItensPorListDeIds(any(), any());
-        verify(msQuartosClient, times(1)).obterQuartosPorListIds(any(), any());
+        verify(msQuartosClient, times(2)).obterQuartosPorListIds(any(), any());
         verify(reservaRepository, times(1)).save(any());
     }
 
