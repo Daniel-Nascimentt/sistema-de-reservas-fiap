@@ -182,9 +182,9 @@ public class ReservaService {
         logger.info("Adicionando serviço(s) à reserva...");
         servicos.forEach(s -> {
             // SE CHEGOU AQUI "request.getServos" NAO É NULL
-            Long quantidade = request.getServicos().stream().filter(f -> f.getIdServico().equals(s.getId())).findFirst().get().getQuantidade();
+            Long quantidade = new ArrayList<>(request.getServicos()).stream().filter(f -> f.getIdServico().equals(s.getId())).findFirst().get().getQuantidade();
             reserva.addOpcional(new OpcionaisReserva(s, reserva, quantidade));
-            reserva.somarAoTotalReserva(s.getValorServico());
+            reserva.somarAoTotalReserva(s.getValorServico().multiply(new BigDecimal(s.getQuantidade())));
         });
         logger.info("Serviços adicionados à reserva.");
     }
@@ -193,9 +193,9 @@ public class ReservaService {
         logger.info("Adicionando item(s) à reserva...");
         itens.forEach(i -> {
             // SE CHEGOU AQUI "request.getItens" NAO É NULL
-            Long quantidade = request.getItens().stream().filter(f -> f.getIdItem().equals(i.getId())).findFirst().get().getQuantidade();
+            Long quantidade = new ArrayList<>(request.getItens()).stream().filter(f -> f.getIdItem().equals(i.getId())).findFirst().get().getQuantidade();
             reserva.addOpcional(new OpcionaisReserva(i, reserva, quantidade));
-            reserva.somarAoTotalReserva(i.getValorItem());
+            reserva.somarAoTotalReserva(i.getValorItem().multiply(new BigDecimal(i.getQuantidade())));
         });
         logger.info("Itens adicionados à reserva.");
     }
