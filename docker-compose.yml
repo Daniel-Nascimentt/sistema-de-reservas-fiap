@@ -30,8 +30,6 @@ services:
       - meu-postgres
     networks:
       - my_network
-    ports:
-      - 8081:8081
 
   ms-servicos-opcionais:
     container_name: ms-servicos-opcionais
@@ -46,8 +44,6 @@ services:
       - meu-postgres
     networks:
       - my_network
-    ports:
-      - 8082:8082
 
   ms-quartos:
     container_name: ms-quartos
@@ -62,18 +58,59 @@ services:
       - meu-postgres
     networks:
       - my_network
-    ports:
-      - 8083:8083
+      
+  ms-reservas:
+    container_name: ms-reservas
+    build:
+      context: ./ms-reservas
+      dockerfile: Dockerfile
+    environment:
+      PG_HOST: jdbc:postgresql://meu-postgres:5432/reservas
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      MS_EMAIL: ms-email
+      MS_CLIENTES: ms-clientes
+      MS_SERVICOS: ms-servicos-opcionais
+      MS_QUARTOS: ms-quartos
+    depends_on:
+      - meu-postgres
+      - ms-email
+      - ms-clientes
+      - ms-servicos-opcionais
+      - ms-quartos
+    networks:
+      - my_network
 
   ms-email:
     container_name: ms-email
     build:
       context: ./ms-email 
       dockerfile: Dockerfile
+    environment:
+      SPRING_MAIL_PASS: zgvq eotd hbgq itbj
     networks:
       - my_network
+
+  ms-gateway:
+    container_name: ms-gateway
+    build:
+      context: ./ms-gateway 
+      dockerfile: Dockerfile
+    environment:
+      HOST_SERVICOS: http://ms-servicos-opcionais:8082/ms-servicos
+      HOST_RESERVAS: http://ms-reservas:8084/ms-reservas
+      HOST_QUARTOS: http://ms-quartos:8083/ms-quartos
+      HOST_CLIENTES: http://ms-clientes:8081/ms-cliente
+    networks:
+      - my_network
+    depends_on:
+      - meu-postgres
+      - ms-email
+      - ms-clientes
+      - ms-servicos-opcionais
+      - ms-quartos
     ports:
-      - 8085:8085
+      - 8080:8080
 
 networks:
   my_network:

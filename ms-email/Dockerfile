@@ -10,6 +10,8 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17
 
+ENV SPRING_MAIL_PASS=sua_pass
+
 WORKDIR /app
 
 COPY --from=builder /app/target/*.jar ms-email.jar
