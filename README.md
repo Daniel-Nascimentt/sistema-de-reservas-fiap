@@ -25,3 +25,19 @@ EMAIL EXEMPLO
 
 ![email-exemplo](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/assets/65513073/acbba258-459d-46f1-912f-93ef2184c532)
 
+
+TESTE MS CLIENT
+![teste-ms-clientes](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/assets/65513073/50e50dff-4e6e-4da7-9474-8bbc759859f5)
+
+
+TESTE MS QUARTO
+![teste-ms-quarto](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/assets/65513073/4513ba75-756b-4dbd-baf0-e6b53da54a58)
+
+
+TESTE MS SERVICOS
+![teste-ms-servicos](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/assets/65513073/6e8fee19-30db-4111-b94f-4d0d54e556f4)
+
+
+TESTE MS RESERVAS
+![teste-ms-reservas](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/assets/65513073/e4426f8d-125c-40f5-8782-83d9431363a2)
+
