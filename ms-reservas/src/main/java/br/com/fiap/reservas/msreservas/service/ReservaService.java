@@ -50,6 +50,9 @@ public class ReservaService {
     @Autowired
     private MsClientesClient msClientesClient;
 
+    @Autowired
+    private EmailService emailService;
+
     private static final Logger logger = LoggerFactory.getLogger(ReservaService.class);
 
     public Page<QuartoResponse> getQuartosDisponiveis(Long idLocalidade, int quantidadeHospedesParaReserva, LocalDate checkin, LocalDate checkout) {
@@ -168,26 +171,30 @@ public class ReservaService {
         reservaRepository.save(reserva);
         long diasDeEstadia = ChronoUnit.DAYS.between(request.getCheckin(), request.getCheckout());
         logger.info("Dias de estadia calculados: {} dias.", diasDeEstadia);
-        adicionarServicosNaReserva(reserva, servicos);
-        adicionarItensNaReserva(reserva, itens);
+        adicionarServicosNaReserva(reserva, servicos, request);
+        adicionarItensNaReserva(reserva, itens, request);
         adicionarQuartosNaReserva(reserva, quartos, diasDeEstadia);
         logger.info("Salvando reserva atualizada...");
         return reservaRepository.save(reserva);
     }
 
-    private void adicionarServicosNaReserva(Reserva reserva, List<ServicoResponse> servicos) {
+    private void adicionarServicosNaReserva(Reserva reserva, List<ServicoResponse> servicos, NovaReservaRequest request) {
         logger.info("Adicionando serviço(s) à reserva...");
         servicos.forEach(s -> {
-            reserva.addOpcional(new OpcionaisReserva(s, reserva));
+            // SE CHEGOU AQUI "request.getServos" NAO É NULL
+            Long quantidade = request.getServicos().stream().filter(f -> f.getIdServico().equals(s.getId())).findFirst().get().getQuantidade();
+            reserva.addOpcional(new OpcionaisReserva(s, reserva, quantidade));
             reserva.somarAoTotalReserva(s.getValorServico());
         });
         logger.info("Serviços adicionados à reserva.");
     }
 
-    private void adicionarItensNaReserva(Reserva reserva, List<ItemResponse> itens) {
+    private void adicionarItensNaReserva(Reserva reserva, List<ItemResponse> itens, NovaReservaRequest request) {
         logger.info("Adicionando item(s) à reserva...");
         itens.forEach(i -> {
-            reserva.addOpcional(new OpcionaisReserva(i, reserva));
+            // SE CHEGOU AQUI "request.getItens" NAO É NULL
+            Long quantidade = request.getItens().stream().filter(f -> f.getIdItem().equals(i.getId())).findFirst().get().getQuantidade();
+            reserva.addOpcional(new OpcionaisReserva(i, reserva, quantidade));
             reserva.somarAoTotalReserva(i.getValorItem());
         });
         logger.info("Itens adicionados à reserva.");
@@ -210,8 +217,10 @@ public class ReservaService {
         ClienteResponse cliente = obterClientePorId(idCliente);
         reserva.validarTitularidade(cliente.getId());
         reserva.confirmarReserva();
+        ReservaResponse response = new ReservaResponse(reservaRepository.save(reserva));
+        emailService.enviarEmail(response, cliente.getEmail());
         logger.info("Reserva confirmada com sucesso para o código de reserva: {}", codigoReserva);
-        return new ReservaResponse(reservaRepository.save(reserva));
+        return response;
     }
 
     public ReservaResponse buscarPorCodigo(UUID codigoReserva, Long idCliente) throws ReservaNaoEncontradaException, ClienteInvalidoException {
@@ -245,9 +254,9 @@ public class ReservaService {
         logger.info("Zerando o valor da diária...");
         reserva.zerarValorDiaria();
         logger.info("Adicionando serviços à reserva...");
-        adicionarServicosNaReserva(reserva, servicos);
+        adicionarServicosNaReserva(reserva, servicos, request);
         logger.info("Adicionando itens à reserva...");
-        adicionarItensNaReserva(reserva, itens);
+        adicionarItensNaReserva(reserva, itens, request);
         logger.info("Adicionando quartos à reserva...");
         adicionarQuartosNaReserva(reserva, quartos, diasDeEstadia);
         logger.info("Atualizando data de pré-reserva...");

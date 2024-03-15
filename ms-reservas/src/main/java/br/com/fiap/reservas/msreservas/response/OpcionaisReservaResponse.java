@@ -16,10 +16,12 @@ public class OpcionaisReservaResponse {
 
     private String idOpcional;
     private BigDecimal valorDoOpcional;
+    private Long quantidade;
 
     public OpcionaisReservaResponse (OpcionaisReserva opcionaisReserva){
        this.idOpcional = opcionaisReserva.getIdOpcional();
        this.valorDoOpcional = opcionaisReserva.getValor();
+        this.quantidade = opcionaisReserva.getQuantidade();
     }
 
 }

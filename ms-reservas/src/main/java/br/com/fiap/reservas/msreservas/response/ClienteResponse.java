@@ -24,4 +24,8 @@ public class ClienteResponse {
     @Schema(description = "Nome completo do cliente")
     private String nomeCompleto;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @Schema(description = "Endereço de e-mail do cliente")
+    private String email;
+
 }

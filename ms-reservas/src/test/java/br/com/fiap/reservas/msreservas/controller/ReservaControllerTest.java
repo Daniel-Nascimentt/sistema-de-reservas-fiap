@@ -162,7 +162,7 @@ class ReservaControllerTest {
                 BigDecimal.valueOf(100),
                 LocalDate.now(),
                 LocalDate.now().plusDays(1),
-                List.of(new OpcionaisReservaResponse("1", BigDecimal.valueOf(10))),
+                List.of(new OpcionaisReservaResponse("1", BigDecimal.valueOf(10), 1L)),
                 LocalDateTime.now(),
                 1L
         );

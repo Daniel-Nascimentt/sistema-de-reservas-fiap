@@ -38,10 +38,10 @@ DO $$ BEGIN
             CONSTRAINT FK_CLIENTES_ENDERECO FOREIGN KEY (endereco_id) REFERENCES ENDERECOS(id)
         );
 
-         INSERT INTO CLIENTES (id, cpf, data_nascimento, email, estrangeiro, nome_completo, pais_origem, passaporte, telefone, endereco_id) VALUES
-            (1, '02565853009', '1990-05-15', 'joao@example.com', false, 'João Silva', 'Brasil', NULL, '(11) 98765-4321', 1),
-            (2, '86185552078', '1985-08-20', 'john@example.com', true, 'John Doe', 'EUA', 'ABC123', '(123) 456-7890', 2),
-            (3, '45653775002', '1992-11-25', 'anna@example.com', true, 'Anna Müller', 'Alemanha', 'XYZ789', '+49 1234 5678', 3);
+         INSERT INTO CLIENTES (cpf, data_nascimento, email, estrangeiro, nome_completo, pais_origem, passaporte, telefone, endereco_id) VALUES
+            ('02565853009', '1990-05-15', 'joao@example.com', false, 'João Silva', 'Brasil', NULL, '(11) 98765-4321', 1),
+            ('86185552078', '1985-08-20', 'john@example.com', true, 'John Doe', 'EUA', 'ABC123', '(123) 456-7890', 2),
+            ('45653775002', '1992-11-25', 'anna@example.com', true, 'Anna Müller', 'Alemanha', 'XYZ789', '+49 1234 5678', 3);
 
     END IF;
 END $$;

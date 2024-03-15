@@ -209,7 +209,8 @@ public class ReservaServiceTest {
         return new ClienteResponse(
                 1L,
                 "123456789",
-                "John Doe"
+                "John Doe",
+                "email@teste.com"
         );
     }
 }

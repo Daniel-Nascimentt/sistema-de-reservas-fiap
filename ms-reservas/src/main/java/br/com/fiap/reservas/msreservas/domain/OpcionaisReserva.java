@@ -25,17 +25,21 @@ public class OpcionaisReserva {
     private Reserva reserva;
     @NotNull
     private BigDecimal valor;
+    @NotNull
+    private Long quantidade;
 
-    public OpcionaisReserva(ServicoResponse servico, Reserva reserva) {
+    public OpcionaisReserva(ServicoResponse servico, Reserva reserva, Long quantidade) {
         this.idOpcional = gerarIdServico(servico.getId());
         this.reserva = reserva;
         this.valor = servico.getValorServico();
+        this.quantidade = quantidade;
     }
 
-    public OpcionaisReserva(ItemResponse item, Reserva reserva) {
+    public OpcionaisReserva(ItemResponse item, Reserva reserva, Long quantidade) {
         this.idOpcional = gerarIdItem(item.getId());
         this.reserva = reserva;
         this.valor = item.getValorItem();
+        this.quantidade = quantidade;
     }
 
     public String gerarIdServico(Long idServico){

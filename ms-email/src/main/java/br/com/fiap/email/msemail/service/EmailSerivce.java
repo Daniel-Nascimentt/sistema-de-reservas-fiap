@@ -24,7 +24,7 @@ public class EmailSerivce {
             message.setSubject(request.getTitulo());
             message.setText(request.getTexto());
             javaMailSender.send(message);
-
+            System.out.println("EMAIL ENVIADO COM SUCESSO!!");
         } catch(MailException ex){
 
             // Apenas printa mensagem de erro.
