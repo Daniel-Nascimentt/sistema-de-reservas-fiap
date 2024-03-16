@@ -105,5 +105,5 @@ Utilizei o Cloud Gateway como ponto de entrada para os microserviços, direciona
 >http://localhost:8080/ms-quartos/swagger-ui/index.html#/
 >http://localhost:8080/ms-servicos/swagger-ui/index.html#/
 
-
 # POSTMAN COM CURL'S DAS REQUESTS
+[sistema-de-reserva.postman_collection.json](https://github.com/Daniel-Nascimentt/sistema-de-reservas-fiap/files/14621769/sistema-de-reserva.postman_collection.json)
