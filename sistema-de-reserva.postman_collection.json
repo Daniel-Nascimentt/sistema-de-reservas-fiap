@@ -1,0 +1,1247 @@
+{
+	"info": {
+		"_postman_id": "b62d5318-a471-408e-a567-a038fbe9ff3d",
+		"name": "sistema-de-reserva",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30666571"
+	},
+	"item": [
+		{
+			"name": "ms-cliente",
+			"item": [
+				{
+					"name": "Cadastrar cliente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paisOrigem\": \"Brasil\",\r\n  \"cpf\": \"45231364835\",\r\n  \"estrangeiro\": false,\r\n  \"nomeCompleto\": \"Joao Silva\",\r\n  \"dataNascimento\": \"2000-05-19\",\r\n  \"endereco\": {\r\n    \"cep\": \"06824050\",\r\n    \"nomeRua\": \"Rua ibira\",\r\n    \"numero\": 178,\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"telefone\": \"987654321\",\r\n  \"email\": \"daniel.fecaf@outlook.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ms-cliente/clientes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-cliente",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar cliente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paisOrigem\": \"Brasil\",\r\n  \"cpf\": \"45231364835\",\r\n  \"estrangeiro\": true,\r\n  \"passaporte\":\"abc\",\r\n  \"nomeCompleto\": \"Daniel Batista Nascimento\",\r\n  \"dataNascimento\": \"2000-05-19\",\r\n  \"endereco\": {\r\n    \"cep\": \"06824050\",\r\n    \"nomeRua\": \"Rua ibira\",\r\n    \"numero\": 178,\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"telefone\": \"987654321\",\r\n  \"email\": \"daniel.fecaf@outlook.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-cliente/clientes/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-cliente",
+								"clientes",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Cliente por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-cliente/clientes/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-cliente",
+								"clientes",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Cliente por id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-cliente/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-cliente",
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-servico-opcionais",
+			"item": [
+				{
+					"name": "Criar servico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeServico\": \"Almoço Executivo\",\r\n    \"descricaoServico\": \"Refeição completa com opções de entrada, prato principal e sobremesa\",\r\n    \"valorServico\": 35.90,\r\n    \"idPropriedade\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"servicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar servico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeServico\": \"Servico atualizado\",\r\n    \"descricaoServico\": \"Sessão relaxante de spa com massagem e tratamentos de bem-estar\",\r\n    \"valorServico\": 80.00,\r\n    \"idPropriedade\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/servicos/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"servicos",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeItem\": \"Refrigerante criado\",\r\n    \"descricaoItem\": \"Bebida gelada, diversas opções de sabores\",\r\n    \"valorItem\": 4.50,\r\n    \"idPropriedade\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/itens",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"itens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeItem\": \"Café da Manhã Completo atualizado\",\r\n    \"descricaoItem\": \"Inclui café, suco, ovos, pão, frutas e cereais\",\r\n    \"valorItem\": 12.99,\r\n    \"idPropriedade\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/itens/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"itens",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar servicos por propriedade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/servicos/servicosPropriedade/2?page=0&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"servicos",
+								"servicosPropriedade",
+								"2"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Servico por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/servicos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"servicos",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Servico por id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/servicos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"servicos",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar itens por propriedade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/itens/itensPropriedade/2?page=0&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"itens",
+								"itensPropriedade",
+								"2"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar item por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/itens/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"itens",
+								"31"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover item por id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-servicos/itens/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-servicos",
+								"itens",
+								"31"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-quarto",
+			"item": [
+				{
+					"name": "localidade",
+					"item": [
+						{
+							"name": "Cadastrar localidade",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nomeLocalidade\":\"Embu - SP\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/localidades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"localidades"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar localidade",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nomeLocalidade\":\"Praia Guaruja - SP\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/localidades/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"localidades",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar localidades",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/localidades?page=0&size=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"localidades"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar localidade por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/localidades/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"localidades",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar Localidade por id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/localidades/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"localidades",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "propriedade",
+					"item": [
+						{
+							"name": "Cadastrar propriedade",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nomePropriedade\": \"Exemplo Hotel Luxuoso 3\",\r\n  \"enderecoPropriedade\":\"Rua ibira 172 - CEP 06824050\",\r\n  \"descricaoAmenidades\": \"Nosso hotel oferece uma experiência única e luxuosa para nossos hóspedes. Desfrute de quartos espaçosos e elegantemente decorados, com vistas deslumbrantes da cidade. Relaxe em nossos restaurantes finos, onde chefs premiados preparam pratos deliciosos. Mantenha-se ativo em nosso moderno centro de fitness e relaxe em nossa piscina coberta aquecida. Mime-se com tratamentos de spa rejuvenescedores. Oferecemos Wi-Fi de alta velocidade, serviço de quarto 24 horas, estacionamento com manobrista e uma equipe dedicada para tornar sua estadia inesquecível.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/propriedades/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"propriedades",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar propriedade",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nomePropriedade\": \"Exemplo Hotel Luxuoso\",\r\n  \"enderecoPropriedade\":\"Rua ibira 171 - CEP 06824050\",\r\n  \"descricaoAmenidades\": \"Nosso hotel oferece uma experiência única e luxuosa para nossos hóspedes. Desfrute de quartos espaçosos e elegantemente decorados, com vistas deslumbrantes da cidade.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/propriedades/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"propriedades",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar propriedades por localidade",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/propriedades/listar/1?page=0&size=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"propriedades",
+										"listar",
+										"1"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar propriedades por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/propriedades/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"propriedades",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar propriedades por id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/propriedades/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"propriedades",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "quarto",
+					"item": [
+						{
+							"name": "Cadastrar quarto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoQuarto\": \"STANDARD_DUPLO\",  \r\n  \"descricaoQuarto\": \"Quarto aconchegante com vista para o jardim 23\",\r\n  \"banheiro\": {\r\n    \"tipoBanheiro\": \"SIMPLES\",  \r\n    \"descricaoBanheiro\": \"Banheiro espaçoso com banheira de hidromassagem\"\r\n  },\r\n  \"propriedadeId\": 1,\r\n  \"totalHospedes\": 2,\r\n  \"valorDiaria\": 100.50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/quartos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"quartos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar quarto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoQuarto\": \"STANDARD_DUPLO\",  \r\n  \"descricaoQuarto\": \"Quarto aconchegante com vista para o jardim, e piscina.\",\r\n  \"banheiro\": {\r\n    \"tipoBanheiro\": \"SIMPLES\",  \r\n    \"descricaoBanheiro\": \"Banheiro espaçoso com banheira de hidromassagem, privada e chuveiro\"\r\n  },\r\n  \"propriedadeId\": 1,\r\n  \"totalHospedes\": 2,\r\n  \"valorDiaria\": 99.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/quartos/13",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"quartos",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar quartos por localidade",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/quartos/localidade/1?page=0&size=20",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"quartos",
+										"localidade",
+										"1"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar quarto por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/quartos/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"quartos",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar quarto por id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/ms-quartos/quartos/13/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"ms-quartos",
+										"quartos",
+										"13",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ms-reservas",
+			"item": [
+				{
+					"name": "Visualizar quartos disponiveis",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idLocalidade\": 1 ,\r\n    \"quantidadeHospedesParaReserva\":\"4\",\r\n    \"checkin\": \"2024-03-26\",\r\n    \"checkout\":\"2024-03-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/dispinibilidades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"dispinibilidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fazer pre reserva",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idsQuarto\": [1],\r\n    \"servicos\": [{\r\n        \"idServico\": 1,\r\n        \"quantidade\": 1\r\n    }],\r\n    \"itens\": [{\r\n        \"idItem\": 1,\r\n        \"quantidade\": 2\r\n    }],\r\n    \"idCliente\": 4,\r\n    \"checkin\": \"2024-04-20\",\r\n    \"checkout\":\"2024-04-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/preReservar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"preReservar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/reservar/329ef188-1867-4231-8006-bbcfbd95deef/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"reservar",
+								"329ef188-1867-4231-8006-bbcfbd95deef",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar reserva",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idsQuarto\": [1],\r\n    \"servicos\": [{\r\n        \"idServico\": 1,\r\n        \"quantidade\": 1\r\n    }],\r\n    \"itens\": [{\r\n        \"idItem\": 5,\r\n        \"quantidade\": 2\r\n    },\r\n    {\r\n        \"idItem\": 2,\r\n        \"quantidade\": 3\r\n    }],\r\n    \"idCliente\": 4,\r\n    \"checkin\": \"2024-04-19\",\r\n    \"checkout\":\"2024-04-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/a8b672fb-b25b-4b2a-8a9d-f4aa1986cbec",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"a8b672fb-b25b-4b2a-8a9d-f4aa1986cbec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "visualizar reserva",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/329ef188-1867-4231-8006-bbcfbd95deef/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"329ef188-1867-4231-8006-bbcfbd95deef",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar reserva",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ms-reservas/reservas/69860a7b-1845-4b90-9708-bb218a0981fb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ms-reservas",
+								"reservas",
+								"69860a7b-1845-4b90-9708-bb218a0981fb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

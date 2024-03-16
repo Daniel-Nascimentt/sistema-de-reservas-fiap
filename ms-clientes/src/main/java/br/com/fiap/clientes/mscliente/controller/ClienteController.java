@@ -30,7 +30,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponse> atualizarCliente(@PathVariable Long id, @RequestBody @Valid ClienteRequest request) throws ClienteNaoEncontradoException {
+    public ResponseEntity<ClienteResponse> atualizarCliente(@PathVariable Long id, @RequestBody @Valid ClienteRequest request) throws ClienteNaoEncontradoException, NumeroDePassaporteNaoInformadoException {
         return ResponseEntity.ok(clienteService.atualizarCliente(id, request));
     }
 

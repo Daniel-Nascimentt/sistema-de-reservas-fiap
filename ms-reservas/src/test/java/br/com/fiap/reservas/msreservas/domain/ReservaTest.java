@@ -1,11 +1,11 @@
 package br.com.fiap.reservas.msreservas.domain;
 
-import br.com.fiap.reservas.msreservas.domain.OpcionaisReserva;
-import br.com.fiap.reservas.msreservas.domain.Reserva;
-import br.com.fiap.reservas.msreservas.domain.ReservaQuarto;
-import br.com.fiap.reservas.msreservas.domain.StatusQuarto;
 import br.com.fiap.reservas.msreservas.exception.ClienteInvalidoException;
+import br.com.fiap.reservas.msreservas.exception.DataCheckinInvalidaException;
 import br.com.fiap.reservas.msreservas.exception.OperacaoReservaNaoPermitidaException;
+import br.com.fiap.reservas.msreservas.request.ItemRequest;
+import br.com.fiap.reservas.msreservas.request.NovaReservaRequest;
+import br.com.fiap.reservas.msreservas.request.ServicoRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -93,9 +95,13 @@ class ReservaTest {
     }
 
     @Test
-    void atualizarDataPreReserva() {
+    void atualizarPreReserva() throws DataCheckinInvalidaException {
         LocalDateTime dataAnterior = reserva.getDataPreReserva();
-        reserva.atualizarDataPreReserva();
+
+        NovaReservaRequest novaReservaRequest = new NovaReservaRequest(Arrays.asList(1L), Arrays.asList(new ServicoRequest()), Arrays.asList(new ItemRequest()), 1L, LocalDate.now(), LocalDate.now().plusDays(1));
+
+        reserva.atualizarPreReserva(novaReservaRequest);
+
         assertNotEquals(dataAnterior, reserva.getDataPreReserva());
     }
 

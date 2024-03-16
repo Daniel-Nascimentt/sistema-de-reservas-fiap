@@ -1,7 +1,9 @@
 package br.com.fiap.reservas.msreservas.domain;
 
 import br.com.fiap.reservas.msreservas.exception.ClienteInvalidoException;
+import br.com.fiap.reservas.msreservas.exception.DataCheckinInvalidaException;
 import br.com.fiap.reservas.msreservas.exception.OperacaoReservaNaoPermitidaException;
+import br.com.fiap.reservas.msreservas.request.NovaReservaRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -85,8 +87,11 @@ public class Reserva {
         this.valorTotalReserva = new BigDecimal("0");
     }
 
-    public void atualizarDataPreReserva() {
+    public void atualizarPreReserva(NovaReservaRequest request) throws DataCheckinInvalidaException {
         this.dataPreReserva = LocalDateTime.now();
+        this.checkin = request.getCheckin();
+        this.checkout = request.getCheckout();
+        this.idcliente = request.getIdCliente();
     }
 
     public void validarTitularidade(Long idCliente) throws ClienteInvalidoException {

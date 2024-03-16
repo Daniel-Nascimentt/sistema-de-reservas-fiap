@@ -33,7 +33,7 @@ public class ClienteService {
         return new ClienteResponse(clienteRepository.save(clienteRequest.toDomain()));
     }
 
-    public ClienteResponse atualizarCliente(Long id, ClienteRequest clienteRequest) throws ClienteNaoEncontradoException {
+    public ClienteResponse atualizarCliente(Long id, ClienteRequest clienteRequest) throws ClienteNaoEncontradoException, NumeroDePassaporteNaoInformadoException {
         logger.info("Atualizando cliente com ID: {}", id);
 
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> {

@@ -87,7 +87,7 @@ services:
       context: ./ms-email 
       dockerfile: Dockerfile
     environment:
-      SPRING_MAIL_PASS: zgvq eotd hbgq itbj
+      SPRING_MAIL_PASS: "sua key aqui"
     networks:
       - my_network
 

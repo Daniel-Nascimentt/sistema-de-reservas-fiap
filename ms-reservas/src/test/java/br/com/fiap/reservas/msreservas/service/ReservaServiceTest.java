@@ -180,7 +180,7 @@ public class ReservaServiceTest {
         verify(msServicosClient, times(1)).obterServicoPorListaIds(any(), any());
         verify(msServicosClient, times(1)).obterItensPorListDeIds(any(), any());
         verify(msQuartosClient, times(2)).obterQuartosPorListIds(any(), any());
-        verify(reservaRepository, times(1)).save(any());
+        verify(reservaRepository, times(2)).save(any());
     }
 
     @Test

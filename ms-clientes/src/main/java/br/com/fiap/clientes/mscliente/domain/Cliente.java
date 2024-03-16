@@ -1,5 +1,6 @@
 package br.com.fiap.clientes.mscliente.domain;
 
+import br.com.fiap.clientes.mscliente.exception.NumeroDePassaporteNaoInformadoException;
 import br.com.fiap.clientes.mscliente.request.ClienteRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -61,7 +62,12 @@ public class Cliente {
         this.email = email;
     }
 
-    public void atualizarCampos(ClienteRequest clienteRequest) {
+    public void atualizarCampos(ClienteRequest clienteRequest) throws NumeroDePassaporteNaoInformadoException {
+
+        if (clienteRequest.isEstrangeiro() && (clienteRequest.getPassaporte() == null || clienteRequest.getPassaporte().isEmpty())) {
+            throw new NumeroDePassaporteNaoInformadoException();
+        }
+
         this.paisOrigem = clienteRequest.getPaisOrigem();
         this.cpf = clienteRequest.getCpf();
         this.passaporte = clienteRequest.getPassaporte();

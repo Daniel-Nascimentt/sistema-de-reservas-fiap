@@ -203,7 +203,6 @@ public class ReservaService {
     private void adicionarQuartosNaReserva(Reserva reserva, List<QuartoResponse> quartos, long diasDeEstadia) {
         logger.info("Adicionando quarto(s) à reserva...");
         quartos.forEach(q -> {
-            reserva.clearQuartos();
             reserva.addQuartoAReserva(new ReservaQuarto(reserva, q.getIdQuarto(), StatusQuarto.PEND_CONFIRM_RESERVA));
             reserva.somarAoTotalReserva(q.getValorDiaria().multiply(new BigDecimal(diasDeEstadia)));
         });
@@ -271,14 +270,17 @@ public class ReservaService {
         reserva.clearOpcional();
         logger.info("Zerando o valor da diária...");
         reserva.zerarValorDiaria();
+        logger.info("Zerando a lista de quartos...");
+        reserva.clearQuartos();
+        reserva = reservaRepository.save(reserva);
         logger.info("Adicionando serviços à reserva...");
         adicionarServicosNaReserva(reserva, servicos, request);
         logger.info("Adicionando itens à reserva...");
         adicionarItensNaReserva(reserva, itens, request);
         logger.info("Adicionando quartos à reserva...");
         adicionarQuartosNaReserva(reserva, quartos, diasDeEstadia);
-        logger.info("Atualizando data de pré-reserva...");
-        reserva.atualizarDataPreReserva();
+        logger.info("Atualizando pré-reserva...");
+        reserva.atualizarPreReserva(request);
         logger.info("Salvando reserva atualizada...");
         Reserva reservaAtualizada = reservaRepository.save(reserva);
         logger.info("Reserva atualizada com sucesso.");
