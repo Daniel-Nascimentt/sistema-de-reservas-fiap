@@ -101,8 +101,11 @@ Utilizei o Cloud Gateway como ponto de entrada para os microserviços, direciona
 # SWAGGER
 
 >http://localhost:8080/ms-reservas/swagger-ui/index.html#/
+
 >http://localhost:8080/ms-cliente/swagger-ui/index.html#/
+
 >http://localhost:8080/ms-quartos/swagger-ui/index.html#/
+
 >http://localhost:8080/ms-servicos/swagger-ui/index.html#/
 
 # POSTMAN COM CURL'S DAS REQUESTS
